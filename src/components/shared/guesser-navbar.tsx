@@ -14,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from '@mui/material';
+import Link from '@mui/material/Link';
+import NextLink from 'next/link';
 
 const pages = [['Quizzes', '/'], ['Create Quiz', '/create'], ['My Statistics', '/statistics']];
 const settings = ['Log Out', 'Log In', 'Register'];
@@ -43,22 +44,24 @@ const GuesserNavBar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <TheatersIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-          <Link href="/" color="inherit" underline="none">EMOJI GUESSER</Link>
-          </Typography>
+          
+			<Link href="/" color="inherit" underline="none" component={NextLink}>
+				<Typography
+					variant="h6"
+					noWrap
+					sx={{
+					mr: 2,
+					display: { xs: 'none', md: 'flex' },
+					fontFamily: 'monospace',
+					fontWeight: 700,
+					letterSpacing: '.3rem',
+					color: 'inherit',
+					textDecoration: 'none',
+					}}
+				>
+					EMOJI GUESSER
+				</Typography>
+			</Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -89,29 +92,30 @@ const GuesserNavBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page[0]} onClick={handleCloseNavMenu}>
-                  <Link color="black" underline="none" href={page[1]}><Typography sx={{ textAlign: 'center' }}>{page[0]}</Typography></Link>
+                  <Link color="black" underline="none" href={page[1]} component={NextLink}><Typography sx={{ textAlign: 'center' }}>{page[0]}</Typography></Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <TheatersIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-          <Link href="/" color="inherit" underline="none">EMOJI GUESSER</Link>
-          </Typography>
+			<Link href="/" color="inherit" underline="none" component={NextLink}>
+				<Typography
+					variant="h5"
+					noWrap
+					sx={{
+					mr: 2,
+					display: { xs: 'flex', md: 'none' },
+					flexGrow: 1,
+					fontFamily: 'monospace',
+					fontWeight: 700,
+					letterSpacing: '.3rem',
+					color: 'inherit',
+					textDecoration: 'none',
+					}}
+				>
+		  			EMOJI GUESSER
+				</Typography>
+			</Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -119,7 +123,7 @@ const GuesserNavBar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link color="white" underline="none" href={page[1]}>{page[0]}</Link>
+                <Link color="white" underline="none" href={page[1]} component={NextLink}>{page[0]}</Link>
               </Button>
             ))}
           </Box>
