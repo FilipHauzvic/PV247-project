@@ -56,12 +56,17 @@ const CreateQuizForm = () => {
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: "questions",
   });
 
   const questions = watch("questions");
+
+  const handleReorderQuestions = (oldIndex: number, newIndex: number) => {
+    // Use react-hook-form's move function to reorder
+    move(oldIndex, newIndex);
+  };
 
   const mutation = useMutation({
     mutationFn: createQuiz,
@@ -120,6 +125,7 @@ const CreateQuizForm = () => {
         onSelectQuestion={setSelectedQuestionIndex}
         onAddQuestion={handleAddQuestion}
         onDeleteQuestion={handleDeleteQuestion}
+        onReorderQuestions={handleReorderQuestions}
         fieldIds={fields.map((f) => f.id)}
       />
       <QuizDetailPanel
