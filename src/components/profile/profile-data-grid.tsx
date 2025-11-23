@@ -17,34 +17,36 @@ export const ProfileDataGrid = ({ data }: { data: HistoryGame[]}) => {
 	const gridData = data.map((game) => ({
 		id: game.id,
 		quizName: game.quiz.quizName,
-		data: game.date,
+		date: game.date,
 		result: `${game.movieGuesses.filter(guess => guess.falseGuessCount < guess.guessedMovie.emojis.length).length} / ${game.movieGuesses.length}`,
 		time: formatTime(game.totalGuessingTimeInSeconds),
 	}));
 
-  return (
-	<Paper sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={gridData}
-        columns={columns}
-        paginationMode="client"
-		initialState={{
-			pagination: {
-				paginationModel: {
-					pageSize: 20,
-					page: 0,
+	return (
+		<Paper style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+			<DataGrid
+			rows={gridData}
+			columns={columns}
+			paginationMode="client"
+			initialState={{
+				pagination: {
+					paginationModel: {
+						pageSize: 20,
+						page: 0,
+					},
 				},
-			},
-        }}
-        pageSizeOptions={[20]}
-		disableRowSelectionOnClick
-		disableAutosize
-		disableColumnFilter
-		disableColumnMenu
-		disableColumnResize
-		disableColumnSelector
-		disableMultipleRowSelection
-      />
-	  </Paper>
-  );
+			}}
+			pageSizeOptions={[20]}
+			autoHeight={false}
+			disableAutosize
+			disableRowSelectionOnClick
+			disableColumnFilter
+			disableColumnMenu
+			disableColumnResize
+			disableColumnSelector
+			disableMultipleRowSelection
+			sx={{ flex: 1 }}
+			/>
+		</Paper>
+	);
 };

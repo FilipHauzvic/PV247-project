@@ -1,5 +1,4 @@
 import { HistoryGame } from "@/src/data/game";
-import Grid from "@mui/material/Grid";
 import GuesserTable from "../shared/guesser-table";
 
 type ProfileStatisticsProps = {
@@ -10,6 +9,13 @@ export const formatTime = (totalSeconds: number) => {
 	const hours = Math.floor(totalSeconds / 3600);
 	const minutes = Math.floor((totalSeconds % 3600) / 60);
 	const seconds = totalSeconds % 60;
+	return `${hours}h ${minutes}m ${seconds}s`;
+}
+
+export const formatTimeAvg = (totalSeconds: number) => {
+	const hours = Math.floor(totalSeconds / 3600);
+	const minutes = Math.floor((totalSeconds % 3600) / 60);
+	const seconds = (totalSeconds % 60).toFixed(2);
 	return `${hours}h ${minutes}m ${seconds}s`;
 }
 
@@ -31,7 +37,7 @@ export const ProfileStatistics = (props: ProfileStatisticsProps) => {
 	const tableData = [
 			["Total games played", totalGames.toString()],
 			["Total time played", formatTime(totalTime)],
-			["Average time per game", formatTime(avgTimePerGame)],
+			["Average time per game", formatTimeAvg(avgTimePerGame)],
 			["Total movies guessed", totalMovies.toString()],
 			["Total correct guesses on movies", totalCorrectGuesses.toString()],
 			["Total fully correct games", totalFullyCorrectGames.toString()],
@@ -43,7 +49,7 @@ export const ProfileStatistics = (props: ProfileStatisticsProps) => {
 
 	  return (
 		<aside style={{ width: "25rem" }}>
-			<h2>User statistics</h2>
+			<h2 className="text-2xl pb-2">User Statistics</h2>
 			<GuesserTable rowNames={["Statistic", "Value"]} data={tableData} />
 		</aside>
 	  );
