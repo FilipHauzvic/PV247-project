@@ -18,7 +18,7 @@ import Link from '@mui/material/Link';
 import NextLink from 'next/link';
 
 const pages = [['Quizzes', '/'], ['Create Quiz', '/create'], ['My Statistics', '/statistics']];
-const settings = ['Log Out', 'Log In', 'Register'];
+const settings = [['Log Out', "/"], ['Log In', "/login"], ['Register', "/register"]];
 
 const GuesserNavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -150,8 +150,10 @@ const GuesserNavBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                <MenuItem key={setting[0]} onClick={handleCloseUserMenu} component={NextLink} href={setting[1]}>
+                  <Typography sx={{ textAlign: 'center' }}>
+					{setting[0]}
+					</Typography>
                 </MenuItem>
               ))}
             </Menu>
