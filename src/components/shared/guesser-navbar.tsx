@@ -20,7 +20,6 @@ import { useRouter } from 'next/navigation';
 import { authClient } from '@/src/lib/auth-client';
 
 const pages = [['Quizzes', '/'], ['Create Quiz', '/create'], ['My Statistics', '/statistics']];
-const settings = ['Log Out', 'Log In', 'Register'];
 
 const GuesserNavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
