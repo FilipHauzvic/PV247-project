@@ -1,6 +1,7 @@
 'use client';
 
 import { use, useState } from 'react';
+import '@/src/app/globals.css'
 import { useRouter } from 'next/navigation';
 import { QuizPlay } from '@/src/components/quiz/QuizPlay';
 import { QuizSummary } from '@/src/components/quiz/QuizSummary';

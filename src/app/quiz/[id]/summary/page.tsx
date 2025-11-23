@@ -1,6 +1,7 @@
 'use client';
 
 import { use } from 'react';
+import '@/src/app/globals.css'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { QuizSummary } from '@/src/components/quiz/QuizSummary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
