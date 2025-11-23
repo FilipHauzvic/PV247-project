@@ -24,7 +24,188 @@ export const getUserGameHistory = async (userId: number) => {
 				quiz: { quizName: "Another Quiz" },
 				movieGuesses: [
 					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],},
+				],
+			},
+			{
+				id: 3,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 4,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 5,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 6,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 7,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 8,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 9,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 10,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 11,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 12,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 13,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 14,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 15,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 16,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 17,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 18,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 19,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 20,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 21,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
+			{
+				id: 22,
+				totalGuessingTimeInSeconds: 95,
+				date: "2024-02-15",
+				quiz: { quizName: "Another Quiz" },
+				movieGuesses: [
+					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
+				],
+			},
 		];
 	}
 	

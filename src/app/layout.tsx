@@ -1,3 +1,4 @@
+import './globals.css';
 import type { Metadata } from "next";
 import GuesserNavBar from "../components/shared/guesser-navbar";
 import { Providers } from "./providers";
