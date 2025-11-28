@@ -2,41 +2,27 @@
 
 import { revalidatePath } from 'next/cache'
 import { quizFormSchema, type QuizFormData } from '@/src/db/validation-schemas'
+import { db } from '@/src/index'
+import { quizzes, guessedMovies } from '@/src/db/schema'
 
 export async function createQuizAction(data: QuizFormData) {
   try {
-    // Server-side validation
     const validatedData = quizFormSchema.parse(data)
     
-    // TODO: Implement actual database insertion
-    // This is a placeholder that will need to be implemented with your DB setup
-    // Example:
-    // const [quiz] = await db.insert(quizzes).values({
-    //   quizName: validatedData.quizName,
-    //   createdBy: 1, // TODO: Get from auth session
-    // }).returning()
-    //
-    // await db.insert(guessedMovies).values(
-    //   validatedData.questions.map((q, idx) => ({
-    //     movieName: q.movieName,
-    //     emojis: q.emojis,
-    //     orderInQuiz: idx,
-    //     quizId: quiz.id,
-    //   }))
-    // )
-    
-    // For now, just log the data
-    console.log('Creating quiz with validated data:', {
+    const [quiz] = await db.insert(quizzes).values({
       quizName: validatedData.quizName,
-      questionCount: validatedData.questions.length,
-      questions: validatedData.questions.map((q, idx) => ({
-        order: idx,
+      createdBy: 1 // Hardcoded user ID for now
+    }).returning();
+
+    await db.insert(guessedMovies).values(
+      validatedData.questions.map((q, idx) => ({
         movieName: q.movieName,
         emojis: q.emojis,
-      })),
-    })
+        orderInQuiz: idx,
+        quizId: quiz.id,
+      }))
+    );
     
-    // Revalidate relevant paths
     revalidatePath('/')
     revalidatePath('/create')
     
