@@ -9,7 +9,7 @@ export default defineConfig({
 	],
 	dialect: 'turso',
 	dbCredentials: {
-		url: process.env.TURSO_DATABASE_URL!,
+		url: process.env.TURSO_DATABASE_URL ?? "libsql://pv247-project-db-emerakin.aws-eu-west-1.turso.io",
 		authToken: process.env.TURSO_AUTH_TOKEN!,
 	},
 });

@@ -1,58 +1,47 @@
-<<<<<<< HEAD
-
 import { auth } from '@/src/auth';
-import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
-
-=======
->>>>>>> 9bf3940219388c67144e0d5a293f6635766f9907
-import { ProfileDataGrid } from "@/src/components/profile/profile-data-grid";
-import { ProfileStatistics } from "@/src/components/profile/profile-statistics";
-import { getUserGameHistory } from "@/src/service/game-service";
+import { redirect } from 'next/navigation';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutButton from '@/src/components/auth/logout-button';
+import { ProfileBody } from '@/src/components/profile/profile-body';
 
 const ProfilePage = async () => {
-	const userId = 1; // TODO: get user after learning auth
-	const data = await getUserGameHistory(userId);
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-	const session = await auth.api.getSession({ headers: await headers() });
+	const sessionPromise = auth.api.getSession({ headers: await headers() });
+	const session = await sessionPromise;
 
 	if (!session?.user) {
-		redirect('/login', );
-	}
-
-	const containerStyle: React.CSSProperties = {
-		display: "flex",
-		flexDirection: "row",
-		gap: "16px", // equivalent to Tailwind gap-4
-		padding: "16px", // Tailwind p-4
-		width: "100%",
-		boxSizing: "border-box",
+		redirect("/login");
 	};
 
-	const mainStyle: React.CSSProperties = {
-		flex: 1, // grow to fill remaining space
-		display: "flex",
-		flexDirection: "column",
-		gap: "16px",
-	};
-
-=======
->>>>>>> dce8e2a (feat: use tailwind styles for profile page)
-=======
->>>>>>> 9bf3940219388c67144e0d5a293f6635766f9907
 	return (
-		<div className="flex flex-col w-full h-full p-4">
-			<h1 className="text-3xl p-4">My Profile</h1>
-			<div className="flex flex-row gap-8 w-full h-full px-4">
-				<main className="flex-1 h-full">
-					<h2 className="text-2xl pb-2">Game History</h2>
-					<ProfileDataGrid data={data} />
-				</main>
-				<ProfileStatistics data={data} />
+		<div className="mx-auto max-w-6xl p-8 space-y-8">
+			<div className="flex items-center gap-4 p-4 bg-white shadow-xl rounded-2xl border-gray-200 border">
+			{session.user.image ? (
+				<img
+				src={session.user.image}
+				alt="profile-picture"
+				className="w-16 h-16 rounded-full object-cover border"
+				/>
+			) : (
+				<AccountCircleIcon
+				sx={{ fontSize: 60, color: '#444' }}
+				/>
+			)}
+
+			<div className="flex flex-col">
+				<h1 className="text-3xl font-semibold text-gray-900">
+				{session.user?.name}
+				</h1>
+				<p className="text-gray-500">{session.user.email}</p>
 			</div>
-		</div>
+
+			<div className="ml-auto">
+				<LogoutButton />
+			</div>
+			</div>
+
+			<ProfileBody sessionPromise={sessionPromise} />
+			</div>
 	);
 };
 

@@ -21,7 +21,16 @@ export const LogoutButton = () => {
 
   return (
   	<div>
-		<Button onClick={handleLogOut}>Logout</Button>
+		<Button 
+			color="inherit"
+			sx={{
+				backgroundColor: "black",
+				color: "white",
+				"&:hover": { backgroundColor: "#333" },
+			}}
+			className="w-full bg-black text-white font-semibold py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+  			onClick={handleLogOut}
+			variant='contained'>Logout</Button>
 		{error && <p style={{ color: 'red' }}>{error}</p>}
 	</div>
   );

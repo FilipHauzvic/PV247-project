@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from '@mui/material/Paper';
 import { HistoryGame } from "@/src/data/game";
-import { formatTime } from "./profile-statistics";
+import { formatTime } from "@/src/lib/format-time";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", flex: 1 },
@@ -13,8 +13,8 @@ const columns: GridColDef[] = [
 	{ field: "time", headerName: "Time", flex: 1 },
 ];
 
-export const ProfileDataGrid = ({ data }: { data: HistoryGame[]}) => {
-	const gridData = data.map((game) => ({
+export const ProfileDataGrid = ({ data }: { data?: HistoryGame[] | undefined}) => {
+	const gridData = data?.map((game) => ({
 		id: game.id,
 		quizName: game.quiz.quizName,
 		date: game.date,
@@ -23,30 +23,38 @@ export const ProfileDataGrid = ({ data }: { data: HistoryGame[]}) => {
 	}));
 
 	return (
-		<Paper style={{ width: "100%", display: "flex", flexDirection: "column" }}>
-			<DataGrid
-			rows={gridData}
-			columns={columns}
-			paginationMode="client"
-			initialState={{
-				pagination: {
-					paginationModel: {
-						pageSize: 20,
-						page: 0,
+		<main className="flex-1 p-6 bg-white shadow rounded-xl">
+			<h2 className="text-2xl font-semibold mb-4">Game History</h2>
+			<Paper elevation={0} className="border rounded-xl overflow-hidden">
+				<DataGrid
+				rows={gridData ?? []}
+				columns={columns}
+				paginationMode="client"
+				initialState={{
+					pagination: {
+						paginationModel: {
+							pageSize: 20,
+							page: 0,
+						},
 					},
-				},
-			}}
-			pageSizeOptions={[20]}
-			autoHeight={false}
-			disableAutosize
-			disableRowSelectionOnClick
-			disableColumnFilter
-			disableColumnMenu
-			disableColumnResize
-			disableColumnSelector
-			disableMultipleRowSelection
-			sx={{ flex: 1 }}
-			/>
-		</Paper>
+					columns: {
+						columnVisibilityModel: {
+							id: false,
+						}
+					},
+				}}
+				pageSizeOptions={[20]}
+				autoHeight={true}
+				disableAutosize
+				disableRowSelectionOnClick
+				disableColumnFilter
+				disableColumnMenu
+				disableColumnResize
+				disableColumnSelector
+				disableMultipleRowSelection
+				sx={{ flex: 1 }}
+				/>
+			</Paper>
+		</main>
 	);
 };

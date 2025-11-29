@@ -1,26 +1,36 @@
 import { HistoryGame } from "@/src/data/game";
 import GuesserTable from "../shared/guesser-table";
+import { formatTime, formatTimeAvg } from "@/src/lib/format-time";
+import { getUserGameHistory } from "@/src/service/game-service";
+import { Session, User } from "better-auth";
 
-type ProfileStatisticsProps = {
-	data: HistoryGame[];
+type SessionAndUser = {
+	session: Session,
+	user: User;
+}
+
+export const ProfileStatisticsWrapper = async ({ sessionPromise }: { sessionPromise: Promise<SessionAndUser | null>}) => {
+	const session = await sessionPromise;
+	const gameHistoryData = await getUserGameHistory(session?.user.id ?? "");
+
+	return (
+		<ProfileStatistics data={gameHistoryData} />
+	)
 };
 
-export const formatTime = (totalSeconds: number) => {
-	const hours = Math.floor(totalSeconds / 3600);
-	const minutes = Math.floor((totalSeconds % 3600) / 60);
-	const seconds = totalSeconds % 60;
-	return `${hours}h ${minutes}m ${seconds}s`;
-}
 
-export const formatTimeAvg = (totalSeconds: number) => {
-	const hours = Math.floor(totalSeconds / 3600);
-	const minutes = Math.floor((totalSeconds % 3600) / 60);
-	const seconds = (totalSeconds % 60).toFixed(2);
-	return `${hours}h ${minutes}m ${seconds}s`;
-}
+export const ProfileStatistics = ({ data }: { data?: HistoryGame[] | undefined}) => {
+	if (!data)
+	{
+		return (
+			<aside className="w-full lg:w-120 p-6 bg-white shadow rounded-xl">
+				<h2 className="text-2xl font-semibold mb-4">Game Statistics</h2>
 
-export const ProfileStatistics = (props: ProfileStatisticsProps) => {
-	const data = props.data;
+				<GuesserTable rowNames={["Statistic", "Value"]} data={[]} />
+			</aside>
+		)
+	}
+
 	const totalGames = data.length;
 	const totalTime = data.reduce((sum, g) => sum + g.totalGuessingTimeInSeconds, 0);
 	const avgTimePerGame = totalGames > 0 ? totalTime / totalGames : 0;
@@ -48,8 +58,9 @@ export const ProfileStatistics = (props: ProfileStatisticsProps) => {
 		];
 
 	  return (
-		<aside style={{ width: "25rem" }}>
-			<h2 className="text-2xl pb-2">User Statistics</h2>
+		<aside className="w-full lg:w-120 p-6 bg-white shadow rounded-xl">
+			<h2 className="text-2xl font-semibold mb-4">Game Statistics</h2>
+
 			<GuesserTable rowNames={["Statistic", "Value"]} data={tableData} />
 		</aside>
 	  );

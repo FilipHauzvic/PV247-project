@@ -19,6 +19,12 @@ export const LoginButton = () => {
 	};
 
   return <Button 
+			color="inherit"
+			sx={{
+				backgroundColor: "black",
+				color: "white",
+				"&:hover": { backgroundColor: "#333" },
+			}}
 			className="w-full bg-black text-white font-semibold py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200"
   			onClick={handleLogin}
 			variant='contained'>

@@ -3,212 +3,8 @@ import { db } from "..";
 import { games, guessedMovies, movieGuesses, quizzes } from "../db/schema";
 import { HistoryGame } from "../data/game";
 
-export const getUserGameHistory = async (userId: number) => {
-	if (userId === 1)
-	{
-		return [
-			{
-				id: 1,
-				totalGuessingTimeInSeconds: 120,
-				date: "2024-01-01",
-				quiz: { quizName: "Sample Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 2, guessedMovie: { movieName: "Inception", emojis: "🌀👨‍💻" } },
-					{ falseGuessCount: 0, guessedMovie: { movieName: "The Matrix", emojis: "💊🕶️" } },
-				],
-			},
-			{
-				id: 2,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 3,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 4,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 5,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 6,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 7,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 8,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 9,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 10,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 11,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 12,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 13,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 14,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 15,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 16,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 17,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 18,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 19,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 20,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 21,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-			{
-				id: 22,
-				totalGuessingTimeInSeconds: 95,
-				date: "2024-02-15",
-				quiz: { quizName: "Another Quiz" },
-				movieGuesses: [
-					{ falseGuessCount: 1, guessedMovie: { movieName: "Interstellar", emojis: "🚀🌌" } }
-				],
-			},
-		];
-	}
-	
+export const getUserGameHistory = async (userId: string) => {
+	await new Promise(r => setTimeout(r, 2000));
 	const gameData = await db
 			.select()
 				.from(games)
@@ -238,6 +34,18 @@ export const getUserGameHistory = async (userId: number) => {
         },
       })),
   }));
+
+  return [
+	{
+		id: 1,
+		totalGuessingTimeInSeconds: 52,
+		date: "2025-08-21",
+		quiz: {
+			quizName: "Test",
+		},
+		movieGuesses: [],
+	},
+  ];
 
   return gameHistory;
 }
