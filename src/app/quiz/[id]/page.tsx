@@ -6,6 +6,11 @@ import { QuizPlay } from '@/src/components/quiz/quiz-play';
 import { QuizSummary } from '@/src/components/quiz/quiz-summary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
 import MovieAutocompleteInput from '@/src/components/autocomplete/movie-autocomplete-input';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: "Ongoing game",
+};
 
 export default function QuizPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();

@@ -3,6 +3,11 @@ import CreateQuizForm from "@/src/module/quiz/create-form";
 import { Box } from "@mui/material";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Create new quiz",
+};
 
 const Page = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
