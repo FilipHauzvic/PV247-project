@@ -18,6 +18,13 @@ export const metadata: Metadata = {
 	alternates: {
 		canonical: "http://localhost:3000",
 	},
+	keywords: [
+		"movie quiz",
+		"emoji quiz",
+		"movie guessing game",
+		"film trivia",
+		"emoji game",
+	],
 	openGraph: {
 		title: "Movie Emoji Guesser",
 		description: "A simple game for guessing movies based on emojis.",

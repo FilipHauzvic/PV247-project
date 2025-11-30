@@ -1,7 +1,12 @@
 import { auth } from '@/src/auth';
 import LoginButton from '@/src/components/auth/login-button';
+import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+	title: "Login",
+};
 
 export const LoginPage = async () => {
 	const session = await auth.api.getSession({ headers: await headers() });
