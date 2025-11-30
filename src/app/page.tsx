@@ -61,7 +61,7 @@ const Page = () => {
           		{error}
         	</div> : listLoading ? (
 				<div className="flex justify-center mt-50">
-					<CircularProgress />
+					<CircularProgress />lement home page with link to sign in page)
 				</div>
 			) : (
 				<div className="flex justify-center">
