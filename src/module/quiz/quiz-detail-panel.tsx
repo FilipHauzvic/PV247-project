@@ -3,6 +3,7 @@
 import { Box, TextField, Button, Typography, Alert } from "@mui/material";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import type { QuizFormData } from "@/src/db/validation-schemas";
+import MovieAutocompleteInput from "@/src/components/movie-auto-complete";
 
 interface QuizDetailPanelProps {
   control: Control<QuizFormData>;
@@ -59,22 +60,10 @@ export const QuizDetailPanel = ({
           Question #{selectedQuestionIndex + 1}
         </Typography>
 
-        <Controller
-          name={`questions.${selectedQuestionIndex}.movieName`}
+        <MovieAutocompleteInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              fullWidth
-              label="Movie Name"
-              placeholder="Enter movie name"
-              error={!!errors.questions?.[selectedQuestionIndex]?.movieName}
-              helperText={
-                errors.questions?.[selectedQuestionIndex]?.movieName?.message
-              }
-              sx={{ mt: 2, mb: 2 }}
-            />
-          )}
+          errors={errors}
+          selectedQuestionIndex={selectedQuestionIndex}
         />
 
         <Controller
