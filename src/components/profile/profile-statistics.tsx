@@ -3,6 +3,7 @@ import GuesserTable from "../shared/guesser-table";
 import { formatTime, formatTimeAvg } from "@/src/lib/format-time";
 import { getUserGameHistory } from "@/src/service/game-service";
 import { Session, User } from "better-auth";
+import { Loading } from "./loading";
 
 type SessionAndUser = {
 	session: Session,
@@ -20,13 +21,12 @@ export const ProfileStatisticsWrapper = async ({ sessionPromise }: { sessionProm
 
 
 export const ProfileStatistics = ({ data }: { data?: HistoryGame[] | undefined}) => {
-	if (!data)
+	if (data === undefined)
 	{
 		return (
-			<aside className="w-full lg:w-120 p-6 bg-white shadow rounded-xl">
+			<aside className="w-full lg:w-120 p-6 bg-white shadow-xô rounded-xl">
 				<h2 className="text-2xl font-semibold mb-4">Game Statistics</h2>
-
-				<GuesserTable rowNames={["Statistic", "Value"]} data={[]} />
+				<Loading />
 			</aside>
 		)
 	}
@@ -58,7 +58,7 @@ export const ProfileStatistics = ({ data }: { data?: HistoryGame[] | undefined})
 		];
 
 	  return (
-		<aside className="w-full lg:w-120 p-6 bg-white shadow rounded-xl">
+		<aside className="w-full lg:w-120 p-6 bg-white shadow-xl rounded-xl">
 			<h2 className="text-2xl font-semibold mb-4">Game Statistics</h2>
 
 			<GuesserTable rowNames={["Statistic", "Value"]} data={tableData} />

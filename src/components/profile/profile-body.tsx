@@ -12,10 +12,10 @@ type SessionAndUser = {
 export const ProfileBody = async ({ sessionPromise }: { sessionPromise: Promise<SessionAndUser | null>}) => {
 	return (
 		<div className="flex flex-col lg:flex-row gap-8">
-			<Suspense fallback={<ProfileStatistics data={[]} />} >
+			<Suspense fallback={<ProfileStatistics />} >
 				<ProfileStatisticsWrapper sessionPromise={sessionPromise} />
 			</Suspense>
-			<Suspense fallback={<ProfileDataGrid data={[]}/>} >
+			<Suspense fallback={<ProfileDataGrid />} >
 				<ProfileDataGridWrapper sessionPromise={sessionPromise} />
 			</Suspense>
 		</div>

@@ -19,33 +19,21 @@ export const getUserGameHistory = async (userId: string) => {
 		.leftJoin(guessedMovies, eq(movieGuesses.guessedMovieId, guessedMovies.id))
 		.where(inArray(movieGuesses.gameId, gameIds));
 
-  const gameHistory: HistoryGame[] = gameData.map(gameDataElement => ({
-    id: gameDataElement.games.id,
-    totalGuessingTimeInSeconds: gameDataElement.games.totalGuessingTimeInSeconds,
-    date: gameDataElement.games.date ?? "",
-    quiz: { quizName: gameDataElement.quizzes?.quizName ?? "Unknown Quiz" },
-    movieGuesses: movieData
-      .filter(movieDataElement => movieDataElement.movie_guesses.gameId === gameDataElement.games.id)
-      .map(movieDataElement => ({
-        falseGuessCount: movieDataElement.movie_guesses.falseGuessCount,
-        guessedMovie: {
-          movieName: movieDataElement.guessed_movies?.movieName ?? "Unknown Movie",
-          emojis: movieDataElement.guessed_movies?.emojis ?? "",
-        },
-      })),
-  }));
+	const gameHistory: HistoryGame[] = gameData.map(gameDataElement => ({
+		id: gameDataElement.games.id,
+		totalGuessingTimeInSeconds: gameDataElement.games.totalGuessingTimeInSeconds,
+		date: gameDataElement.games.date ?? "",
+		quiz: { quizName: gameDataElement.quizzes?.quizName ?? "Unknown Quiz" },
+		movieGuesses: movieData
+			.filter(movieDataElement => movieDataElement.movie_guesses.gameId === gameDataElement.games.id)
+			.map(movieDataElement => ({
+				falseGuessCount: movieDataElement.movie_guesses.falseGuessCount,
+				guessedMovie: {
+					movieName: movieDataElement.guessed_movies?.movieName ?? "Unknown Movie",
+					emojis: movieDataElement.guessed_movies?.emojis ?? "",
+				},
+			})),
+	}));
 
-  return [
-	{
-		id: 1,
-		totalGuessingTimeInSeconds: 52,
-		date: "2025-08-21",
-		quiz: {
-			quizName: "Test",
-		},
-		movieGuesses: [],
-	},
-  ];
-
-  return gameHistory;
+	return gameHistory;
 }

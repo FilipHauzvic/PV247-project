@@ -1,6 +1,6 @@
 'use client';
 
-export const ErrorProfilePage = () => {
+export const ErrorLoginPage = () => {
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-100">
 			<div className="bg-white shadow-lg rounded-xl p-10 w-full max-w-sm flex flex-col items-center gap-6">
@@ -12,4 +12,4 @@ export const ErrorProfilePage = () => {
 	);
 }
 
-export default ErrorProfilePage;
+export default ErrorLoginPage;
