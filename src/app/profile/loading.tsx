@@ -1,7 +1,8 @@
 "use client";
 
 import LogoutButton from '@/src/components/auth/logout-button';
-import { ProfileBody } from '@/src/components/profile/profile-body';
+import { ProfileDataGrid } from '@/src/components/profile/profile-data-grid';
+import { ProfileStatistics } from '@/src/components/profile/profile-statistics';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const LoadingProfilePage = () => {
@@ -23,7 +24,10 @@ const LoadingProfilePage = () => {
 					<LogoutButton />
 				</div>
 			</div>
-			<ProfileBody sessionPromise={Promise.resolve<null>(null)} />
+			<div className="flex flex-col lg:flex-row gap-8">
+				<ProfileStatistics />
+				<ProfileDataGrid />
+			</div>
 		</div>
 	);
 };
