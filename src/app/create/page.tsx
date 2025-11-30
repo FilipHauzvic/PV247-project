@@ -1,7 +1,10 @@
+import CreateQuizForm from "@/src/module/quiz/create-form";
+import { Box } from "@mui/material";
+
 const Page = () => (
-	<div>
-		<h1 className="text-3xl p-2">Create Quiz</h1>
-	</div>
+  <Box sx={{ height: "calc(100vh - 70px)", overflow: "hidden" }}>
+    <CreateQuizForm />
+  </Box>
 );
 
 export default Page;

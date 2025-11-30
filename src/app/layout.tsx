@@ -2,13 +2,13 @@ import './globals.css';
 import type { Metadata } from "next";
 import GuesserNavBar from "../components/shared/guesser-navbar";
 import { Providers } from "./providers";
-import { Roboto } from 'next/font/google';
+import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto',
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.variable}>
+      <body className={roboto.variable} style={{ margin: 0 }}>
         <Providers>
           <GuesserNavBar />
           {children}
