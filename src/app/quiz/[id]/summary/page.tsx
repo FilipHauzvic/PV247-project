@@ -5,11 +5,6 @@ import '@/src/app/globals.css'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { QuizSummary } from '@/src/components/quiz/quiz-summary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-	title: "Finished game summary",
-};
 
 export default function QuizSummaryPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();

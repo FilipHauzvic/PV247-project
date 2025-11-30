@@ -1,9 +1,17 @@
 import { auth } from "@/src/auth";
 import CreateQuizForm from "@/src/module/quiz/create-form";
 import { Box } from "@mui/material";
+<<<<<<< HEAD
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
+=======
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Create new quiz",
+};
+>>>>>>> 378fc41 (feat: add custom title metadata for different pages)
 
 export const metadata: Metadata = {
 	title: "Create new quiz",
