@@ -4,14 +4,24 @@ import { revalidatePath } from 'next/cache'
 import { quizFormSchema, type QuizFormData } from '@/src/db/validation-schemas'
 import { db } from '@/src/index'
 import { quizzes, guessedMovies } from '@/src/db/schema'
+import { auth } from '../auth'
+import { headers } from 'next/headers';
 
 export async function createQuizAction(data: QuizFormData) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) {
+    return {
+      success: false,
+      error: 'User not authenticated'
+    }
+  }
+
   try {
     const validatedData = quizFormSchema.parse(data)
     
     const [quiz] = await db.insert(quizzes).values({
       quizName: validatedData.quizName,
-      createdBy: 1 // Hardcoded user ID for now
+      createdBy: session.user.id
     }).returning();
 
     await db.insert(guessedMovies).values(
@@ -29,7 +39,6 @@ export async function createQuizAction(data: QuizFormData) {
     return { 
       success: true, 
       message: 'Quiz created successfully',
-      // quizId: quiz.id // Will be available once DB is implemented
     }
   } catch (error) {
     console.error('Error creating quiz:', error)
