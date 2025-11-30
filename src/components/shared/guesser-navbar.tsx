@@ -11,7 +11,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from '@mui/material/Link';
@@ -20,7 +19,6 @@ import { useRouter } from 'next/navigation';
 import { authClient } from '@/src/lib/auth-client';
 
 const pages = [['Quizzes', '/'], ['Create Quiz', '/create'], ['My Statistics', '/statistics']];
-const settings = ['Log Out', 'Log In', 'Register'];
 
 const GuesserNavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
