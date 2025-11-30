@@ -11,18 +11,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from '@mui/material/Link';
 import NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
+import { authClient } from '@/src/lib/auth-client';
 
 const pages = [['Quizzes', '/'], ['Create Quiz', '/create'], ['My Statistics', '/statistics']];
-const settings = ['Log Out', 'Log In', 'Register'];
 
 const GuesserNavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const router = useRouter();
+   const session = authClient.useSession();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,6 +40,9 @@ const GuesserNavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  
+	console.log('session in navbar', session)
 
   return (
     <AppBar position="static" sx={{ bgcolor: "black" }}>
@@ -127,34 +132,28 @@ const GuesserNavBar = () => {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="User Options">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <Box sx={{ flexGrow: 0, display: "flex", flexDirection: "row" }} >
+			{true && <Link href="/profile" color="inherit" underline="none" component={NextLink}>
+				<Typography
+					variant="h6"
+					noWrap
+					sx={{
+					mr: 2,
+					display: { xs: "none", sm: "none", md: "flex" },
+					flexGrow: 1,
+					fontFamily: 'monospace',
+					fontWeight: 300,
+					letterSpacing: '.1rem',
+					color: 'inherit',
+					textDecoration: 'none',
+					}}
+				>
+		  			{session.data?.user.name}
+				</Typography>
+				</Link>}
+              <IconButton onClick={() => router.push("/profile")} sx={{ p: 0 }}>
                 <AccountCircleIcon sx={{ display: { xs: 'flex' }, fontSize: 'inherit', color: 'white' }} />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>

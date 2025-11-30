@@ -1,18 +1,12 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-import { relations, sql } from 'drizzle-orm';
-import { z } from 'zod';
-
-export const users = sqliteTable("users", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  nickname: text("nickname").notNull(),
-  password: text("password").notNull(),
-});
+import { sql } from 'drizzle-orm';
+import { user } from '@/auth-schema';
 
 export const quizzes = sqliteTable("quizzes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   quizName: text("quiz_name").notNull(),
-  createdBy: integer("created_by")
-    .references(() => users.id)
+  createdBy: text("created_by")
+    .references(() => user.id)
     .notNull(),
 });
 
@@ -30,8 +24,8 @@ export const games = sqliteTable("games", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   totalGuessingTimeInSeconds: integer("total_guessing_time_in_seconds").notNull(),
   date: text("date").default(sql`CURRENT_TIMESTAMP`),
-  playerId: integer("player_id")
-    .references(() => users.id)
+  playerId: text("player_id")
+    .references(() => user.id)
     .notNull(),
   quizId: integer("quiz_id")
     .references(() => quizzes.id)

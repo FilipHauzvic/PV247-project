@@ -1,31 +1,42 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import '@/src/app/globals.css'
 import { useRouter } from 'next/navigation';
 import { QuizPlay } from '@/src/components/quiz/QuizPlay';
 import { QuizSummary } from '@/src/components/quiz/QuizSummary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
 
-const MOCK_QUIZ: QuizWithMovies = {
-  id: 1,
-  quizName: "Classic Movies Quiz",
-  createdBy: 1,
-  movies: [
-    { id: 1, movieName: "The Lion King", emojis: ["🦁", "👑", "🌅", "🎵", "🐗"], orderInQuiz: 0 },
-    { id: 2, movieName: "Titanic", emojis: ["🚢", "❤️", "🧊", "💎", "🌊"], orderInQuiz: 1 },
-    { id: 3, movieName: "Finding Nemo", emojis: ["🐠", "🔍", "🌊", "🦈", "🐢"], orderInQuiz: 2 },
-    { id: 4, movieName: "The Matrix", emojis: ["💊", "🕶️", "💻", "🔫", "🤖"], orderInQuiz: 3 },
-  ]
-};
-
 export default function QuizPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = use(params);
   const [currentView, setCurrentView] = useState<'play' | 'summary'>('play');
   const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
+  const [quiz, setQuiz] = useState<QuizWithMovies | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const quiz = MOCK_QUIZ;
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/quiz/${id}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch quiz');
+        }
+        
+        const data = await response.json();
+        setQuiz(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuiz();
+  }, [id]);
 
   const handleQuizComplete = (results: QuizResult[]) => {
     setQuizResults(results);
@@ -40,6 +51,30 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   const handleBackToList = () => {
     router.push('/quiz');
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl">Loading quiz...</div>
+      </div>
+    );
+  }
+
+  if (error || !quiz) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <div className="text-xl text-red-500">
+          {error || 'Quiz not found'}
+        </div>
+        <button
+          onClick={handleBackToList}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Back to Quiz List
+        </button>
+      </div>
+    );
+  }
 
   if (currentView === 'play') {
     return <QuizPlay quiz={quiz} onComplete={handleQuizComplete} />;

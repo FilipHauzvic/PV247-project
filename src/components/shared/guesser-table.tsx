@@ -31,8 +31,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const GuesserTable = ({rowNames, data}: {rowNames: string[], data: string[][]}) => {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} sx={{ width: "max", display: "inline-block" }}>
+      <Table sx={{ minWidth: "fit-content" }} aria-label="customized table">
         <TableHead>
           <TableRow>
             {rowNames.map((rowName, rowNameId) => (
