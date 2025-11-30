@@ -4,6 +4,11 @@ import { redirect } from 'next/navigation';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutButton from '@/src/components/auth/logout-button';
 import { ProfileBody } from '@/src/components/profile/profile-body';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: "Profile",
+};
 
 const ProfilePage = async () => {
 	const sessionPromise = auth.api.getSession({ headers: await headers() });

@@ -6,6 +6,11 @@ import { useRouter } from 'next/navigation';
 import { QuizPlay } from '@/src/components/quiz/QuizPlay';
 import { QuizSummary } from '@/src/components/quiz/QuizSummary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: "Ongoing game",
+};
 
 export default function QuizPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
