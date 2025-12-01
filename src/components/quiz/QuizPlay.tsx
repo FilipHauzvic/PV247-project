@@ -64,7 +64,7 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete }) => {
         const newResult: QuizResult = {
           guessedMovieId: currentMovie.id,
           movieName: currentMovie.movieName,
-          correct: true,
+          correct: false,
           attempts: wrongAttempts + 1
         };
         const newResults = [...results, newResult];
