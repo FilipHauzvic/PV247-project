@@ -22,7 +22,6 @@ export async function createQuizAction(data: QuizFormData) {
 
     // Validate emojis for each question
     for (const q of validatedData.questions) {
-      console.log(splitEmojiString(q.emojis));
       const result = validateEmojiString(q.emojis, MAX_EMOJI_LENGTH);
       if (!result.valid) {
         return {
