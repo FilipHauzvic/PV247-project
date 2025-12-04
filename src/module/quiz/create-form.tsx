@@ -8,11 +8,13 @@ import { v4 as uuidv4 } from "uuid";
 import { Box } from "@mui/material";
 import { quizFormSchema, type QuizFormData } from "@/src/db/validation-schemas";
 import { createQuizAction } from "@/src/actions/quiz-actions";
+import { useRouter } from "next/navigation";
 import { QuestionListSidebar } from "./question-list-sidebar";
 import { QuizDetailPanel } from "./quiz-detail-panel";
 
 const CreateQuizForm = () => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+  const router = useRouter();
 
   const {
     control,
@@ -58,6 +60,7 @@ const CreateQuizForm = () => {
         ],
       });
       setSelectedQuestionIndex(0);
+      router.push("/");
     },
   });
 
