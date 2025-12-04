@@ -2,6 +2,8 @@
 
 import { Box, TextField, Button, Typography, Alert } from "@mui/material";
 import { Controller, Control, FieldErrors } from "react-hook-form";
+import EmojiInput from "./emoji-input";
+import { MAX_EMOJI_LENGTH } from "@/src/utils/emoji";
 import type { QuizFormData } from "@/src/db/validation-schemas";
 
 interface QuizDetailPanelProps {
@@ -81,8 +83,10 @@ export const QuizDetailPanel = ({
           name={`questions.${selectedQuestionIndex}.emojis`}
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
+            <EmojiInput
+              value={field.value}
+              onChange={field.onChange}
+              maxEmojis={MAX_EMOJI_LENGTH}
               fullWidth
               label="Emojis"
               placeholder="Enter emojis representing the movie"
