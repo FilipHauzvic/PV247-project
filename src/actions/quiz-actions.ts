@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { quizFormSchema, type QuizFormData } from '@/src/db/validation-schemas'
+import { validateEmojiString, MAX_EMOJI_LENGTH, splitEmojiString } from '@/src/utils/emoji'
 import { db } from '@/src/index'
 import { quizzes, guessedMovies } from '@/src/db/schema'
 import { auth } from '../auth'
@@ -41,7 +42,18 @@ export async function createQuizAction(data: QuizFormData) {
 
   try {
     const validatedData = quizFormSchema.parse(data)
-    
+
+    // Validate emojis for each question
+    for (const q of validatedData.questions) {
+      const result = validateEmojiString(q.emojis, MAX_EMOJI_LENGTH);
+      if (!result.valid) {
+        return {
+          success: false,
+          error: `Invalid emojis for "${q.movieName}": ${result.error}`
+        }
+      }
+    }
+
     const [quiz] = await db.insert(quizzes).values({
       quizName: validatedData.quizName,
       createdBy: session.user.id
@@ -55,7 +67,7 @@ export async function createQuizAction(data: QuizFormData) {
         quizId: quiz.id,
       }))
     );
-    
+
     revalidatePath('/')
     revalidatePath('/create')
     
