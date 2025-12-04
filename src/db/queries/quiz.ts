@@ -26,3 +26,12 @@ export async function getQuizWithMovies(quizId: number) {
     })),
   };
 }
+
+export async function retrieveAllQuizzes() {
+  const retrievedQuizzes = await db.query.quizzes.findMany();
+  return retrievedQuizzes;
+}
+
+export async function deleteQuiz(quizId: number) {
+  await db.delete(quizzes).where(eq(quizzes.id, quizId));
+}
