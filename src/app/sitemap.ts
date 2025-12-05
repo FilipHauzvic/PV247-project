@@ -16,6 +16,18 @@ export const sitemap = (): MetadataRoute.Sitemap => {
 			changeFrequency: "yearly",
 			priority: 0.7
 		},
+		{
+			url: `${baseUrl}/profile`,
+			lastModified: new Date(),
+			changeFrequency: "yearly",
+			priority: 0.7
+		},
+		{
+			url: `${baseUrl}/create`,
+			lastModified: new Date(),
+			changeFrequency: "yearly",
+			priority: 0.6
+		},
 	];
 }
 
