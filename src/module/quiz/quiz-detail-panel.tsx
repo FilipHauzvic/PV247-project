@@ -1,11 +1,11 @@
 "use client";
 
-import { Box, TextField, Button, Typography, Alert } from "@mui/material";
-import { Controller, Control, FieldErrors } from "react-hook-form";
-import EmojiInput from "./emoji-input";
-import { MAX_EMOJI_LENGTH } from "@/src/utils/emoji";
+import { Box, Alert } from "@mui/material";
+import { Control, FieldErrors } from "react-hook-form";
 import type { QuizFormData } from "@/src/db/validation-schemas";
-import MovieAutocompleteInput from "@/src/components/movie-auto-complete";
+import { QuizDetailHeader } from "./QuizDetailHeader";
+import { QuizDetailQuestion } from "./QuizDetailQuestion";
+import { QuizDetailFooter } from "./QuizDetailFooter";
 
 interface QuizDetailPanelProps {
   control: Control<QuizFormData>;
@@ -34,60 +34,13 @@ export const QuizDetailPanel = ({
       onSubmit={onSubmit}
       sx={{ flexGrow: 1, display: "flex", flexDirection: "column", p: 3 }}
     >
-      {/* Header Section */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          Create New Quiz
-        </Typography>
-        <Controller
-          name="quizName"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              fullWidth
-              label="Quiz Name"
-              placeholder="Enter quiz name"
-              error={!!errors.quizName}
-              helperText={errors.quizName?.message}
-              sx={{ mt: 2 }}
-            />
-          )}
-        />
-      </Box>
+      <QuizDetailHeader control={control} errors={errors} />
 
-      {/* Question Detail Section */}
-      <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="h5" gutterBottom>
-          Question #{selectedQuestionIndex + 1}
-        </Typography>
-
-        <MovieAutocompleteInput
-          control={control}
-          errors={errors}
-          selectedQuestionIndex={selectedQuestionIndex}
-        />
-
-        <Controller
-          name={`questions.${selectedQuestionIndex}.emojis`}
-          control={control}
-          render={({ field }) => (
-            <EmojiInput
-              value={field.value}
-              onChange={field.onChange}
-              maxEmojis={MAX_EMOJI_LENGTH}
-              fullWidth
-              label="Emojis"
-              placeholder="Enter emojis representing the movie"
-              error={!!errors.questions?.[selectedQuestionIndex]?.emojis}
-              helperText={
-                errors.questions?.[selectedQuestionIndex]?.emojis?.message
-              }
-              sx={{ mb: 2 }}
-            />
-          )}
-        />
-      </Box>
+      <QuizDetailQuestion
+        control={control}
+        errors={errors}
+        selectedQuestionIndex={selectedQuestionIndex}
+      />
 
       {/* Error/Success Messages */}
       {isError && (
@@ -101,17 +54,7 @@ export const QuizDetailPanel = ({
         </Alert>
       )}
 
-      {/* Footer - Create Button */}
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          size="large"
-          type="submit"
-          disabled={isPending}
-        >
-          {isPending ? "Creating..." : "Create Quiz"}
-        </Button>
-      </Box>
+      <QuizDetailFooter isPending={isPending} />
     </Box>
   );
 };
