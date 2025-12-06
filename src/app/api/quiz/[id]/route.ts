@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getQuizWithMovies } from '@/src/db/queries/quiz';
+import { deleteQuiz, getQuizWithMovies } from '@/src/db/queries/quiz';
 
 export async function GET(
   request: NextRequest,
@@ -28,6 +28,33 @@ export async function GET(
     return NextResponse.json(quiz);
   } catch (error) {
     console.error('Error fetching quiz:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const quizId = parseInt(id);
+
+    if (isNaN(quizId)) {
+      return NextResponse.json(
+        { error: 'Invalid quiz ID' },
+        { status: 400 }
+      );
+    }
+
+    await deleteQuiz(quizId);
+
+    return NextResponse.json(null);
+  } catch (error) {
+    console.error('Error deleting quiz:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

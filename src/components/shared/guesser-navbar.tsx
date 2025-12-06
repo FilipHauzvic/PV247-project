@@ -18,31 +18,20 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/src/lib/auth-client';
 
-const pages = [['Quizzes', '/'], ['Create Quiz', '/create'], ['My Statistics', '/statistics']];
+const pages = [['Quizzes', '/'], ['Create Quiz', '/create']];
 
 const GuesserNavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const router = useRouter();
    const session = authClient.useSession();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  
-	console.log('session in navbar', session)
 
   return (
     <AppBar position="static" sx={{ bgcolor: "black" }}>
