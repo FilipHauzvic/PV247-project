@@ -5,6 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutButton from '@/src/components/auth/logout-button';
 import { ProfileBody } from '@/src/components/profile/profile-body';
 import { Metadata } from 'next';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
 	title: "Profile",
@@ -22,7 +23,7 @@ const ProfilePage = async () => {
 		<div className="mx-auto md:max-w-3/4 p-8 space-y-8">
 			<div className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white shadow-xl rounded-2xl border-gray-200 border">
 				{session.user.image ? (
-					<img
+					<Image
 					src={session.user.image}
 					alt="profile-picture"
 					className="w-16 h-16 rounded-full object-cover border"
