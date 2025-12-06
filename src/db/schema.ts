@@ -5,6 +5,7 @@ import { user } from '@/auth-schema';
 export const quizzes = sqliteTable("quizzes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   quizName: text("quiz_name").notNull(),
+  deleted: integer({ mode: 'boolean' }).notNull().default(false),
   createdBy: text("created_by")
     .references(() => user.id)
     .notNull(),

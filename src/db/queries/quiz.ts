@@ -27,11 +27,8 @@ export async function getQuizWithMovies(quizId: number) {
   };
 }
 
-export async function retrieveAllQuizzes() {
-  const retrievedQuizzes = await db.query.quizzes.findMany();
-  return retrievedQuizzes;
-}
+export const retrieveAllQuizzes = async () => await db.query.quizzes.findMany({
+  where: eq(quizzes.deleted, false),
+});
 
-export async function deleteQuiz(quizId: number) {
-  await db.delete(quizzes).where(eq(quizzes.id, quizId));
-}
+export const deleteQuiz = async (quizId: number) => await db.update(quizzes).set({deleted: true}).where(eq(quizzes.id, quizId));

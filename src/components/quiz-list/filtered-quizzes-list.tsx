@@ -1,79 +1,88 @@
+"use client";
+
 import { Quiz } from "@/src/db/types";
 import { CircularProgress, Pagination } from "@mui/material";
 import { useState } from "react";
-import { Box } from "@mui/material";
 import { authClient } from "@/src/lib/auth-client";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import EditSquareIcon from '@mui/icons-material/EditSquare';
 import { useRouter } from "next/navigation";
-import { deleteQuiz } from "@/src/db/queries/quiz";
 
 type FilteredQuizzesListProps = {
     filteredQuizzes: Quiz[];
-    refetchQuizzes: boolean;
-    setRefetchQuizzes: (refetchSwitch: boolean) => void;
+    quizzes: Quiz[];
+    setQuizzes: (quizzes: Quiz[]) => void;
+    setFilteredQuizzes: (filteredQuizzes: Quiz[]) => void;
 };
 
 const FilteredQuizzesList = (props: FilteredQuizzesListProps) => {
     const [page, setPage] = useState(1);
 
     return (
-        <Box>
-            <ul>
+        <div className="flex flex-col p-6 lg:w-7/8">
+            <div className="mt-2 mb-6 flex justify-center">
+                <Pagination count={props.filteredQuizzes.length % 20 === 0 ? Math.floor(props.filteredQuizzes.length / 20) : Math.floor(props.filteredQuizzes.length / 20) + 1}
+                    page={page} onChange={(_, val) => setPage(val)} />
+            </div>
+            <ul className="flex flex-wrap">
                 {props.filteredQuizzes.slice((page - 1) * 20, props.filteredQuizzes.length < page * 20 ? props.filteredQuizzes.length : page * 20)
                  .map((quiz => (
-                    <li key={quiz.id}>
-                        <QuizListItem quiz={quiz} refetchQuizzes={props.refetchQuizzes} setRefetchQuizzes={props.setRefetchQuizzes} />
+                    <li key={quiz.id} className="p-2.5">
+                        <QuizListItem quiz={quiz} quizzes={props.quizzes} setQuizzes={props.setQuizzes} 
+                            setFilteredQuizzes={props.setFilteredQuizzes} filteredQuizzes={props.filteredQuizzes} />
                     </li>
                 )))}
             </ul>
-            <Pagination count={props.filteredQuizzes.length % 20 === 0 ? props.filteredQuizzes.length / 20 : props.filteredQuizzes.length / 20 + 1}
-                page={page} onChange={(_, val) => setPage(val)} />
-        </Box>
+        </div>
     );
 };
 
 type QuizListItemProps = {
     quiz: Quiz;
-    refetchQuizzes: boolean;
-    setRefetchQuizzes: (refetchSwitch: boolean) => void;
+    filteredQuizzes: Quiz[];
+    quizzes: Quiz[];
+    setQuizzes: (quizzes: Quiz[]) => void;
+    setFilteredQuizzes: (filteredQuizzes: Quiz[]) => void;
 };
 
 const QuizListItem = (props: QuizListItemProps) => {
     const session = authClient.useSession();
     const router = useRouter();
     const [deleting, setDeleting] = useState(false);
+    const [deletingError, setDeletingError] = useState<String | null>(null);
 
     return (
-        <div className="flex flex-col">
-            <h3>{props.quiz.quizName}</h3>
-            <ul className="flex flex-row">
-                <li>
+        <div className="flex flex-col bg-gray-200 outline-solid outline-2 rounded-2xl">
+            <h3 className="text-2xl m-4 font-semibold flex flex-wrap">{props.quiz.quizName}</h3>
+            <ul className="flex flex-row justify-between">
+                <li className="ml-4 mt-3 mb-3 mr-2">
                     <IconButton onClick={() => router.push(`/quiz/${props.quiz.id}`)} sx={{ p: 0 }}>
-                        <PlayCircleIcon />
+                        <PlayCircleIcon sx={{ display: { xs: 'flex' }, fontSize: 45, color: 'black' }}/>
                     </IconButton>
                 </li>
                 {session.data !== null && session.data.user !== null && session.data.user.id === props.quiz.createdBy ? (
                     <>
-                        {
-                            // TODO: if we decide to add edit button...
-                            // <li>
-                            //     <IconButton onClick={() => router.push(`/edit/${quiz.id}`)} sx={{ p: 0 }}>
-                            //         <EditSquareIcon />
-                            //     </IconButton>
-                            // </li>
-                        }
-                        <li>
+                        <li className="ml-10 mt-3 mb-3 mr-3">
+                            {deletingError ? <div className="text-xl text-red-500 mt-2 mr-2 font-semibold"> {deletingError} </div> : (
                             <IconButton disabled={deleting} onClick={async () => {
-                                setDeleting(true);
-                                await deleteQuiz(props.quiz.id);
-                                props.setRefetchQuizzes(!props.refetchQuizzes)
-                                setDeleting(false);
+                                try {
+                                    setDeleting(true);
+                                    const response = await fetch(`/api/quiz/${props.quiz.id}`, {method: 'DELETE'});
+                                    if (!response.ok) {
+                                        throw new Error('Failed to delete quiz');
+                                    }
+                                    props.setQuizzes(props.quizzes.filter((quiz) => quiz.id != props.quiz.id));
+                                    props.setFilteredQuizzes(props.filteredQuizzes.filter((quiz) => quiz.id != props.quiz.id));
+                                } catch (err) {
+                                    setDeletingError(err instanceof Error ? err.message : 'An error occurred');
+                                } finally {
+                                    setDeleting(false);
+                                }
                             }} sx={{ p: 0 }}>
-                                {deleting ? <CircularProgress /> : <DeleteIcon />}
-                            </IconButton>
+                                {deleting ? <CircularProgress sx={{ display: { xs: 'flex' }, fontSize: 45, color: 'red' }} /> 
+                                : <DeleteIcon sx={{ display: { xs: 'flex' }, fontSize: 45, color: 'red' }}/>}
+                            </IconButton>)}
                         </li>
                     </>
                 ) : null}
