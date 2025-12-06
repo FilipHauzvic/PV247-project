@@ -7,10 +7,6 @@ import { QuizSummary } from '@/src/components/quiz/QuizSummary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-	title: "Finished game summary",
-};
-
 export default function QuizSummaryPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const searchParams = useSearchParams();
