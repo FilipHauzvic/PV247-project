@@ -24,19 +24,23 @@ const ProfilePage = async () => {
 			<div className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white shadow-xl rounded-2xl border-gray-200 border">
 				{session.user.image ? (
 					<Image
-					src={session.user.image}
-					alt="profile-picture"
-					className="w-16 h-16 rounded-full object-cover border"
+						src={session.user.image}
+						width={64}
+						height={64}
+						alt="profile-picture"
+						className="rounded-full object-cover border"
 					/>
 				) : (
 					<AccountCircleIcon
-					sx={{ fontSize: 60, color: '#444' }}
+						width={64}
+						height={64}
+						sx={{ fontSize: 64, color: '#444' }}
 					/>
 				)}
 
 				<div className="flex flex-col">
 					<h1 className="text-3xl font-semibold text-gray-900">
-					{session.user?.name}
+						{session.user?.name}
 					</h1>
 					<p className="text-gray-500">{session.user.email}</p>
 				</div>
