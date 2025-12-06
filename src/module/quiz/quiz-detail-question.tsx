@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import EmojiInput from "./emoji-input";
-import MovieAutocompleteInput from "@/src/components/movie-auto-complete";
+import { MovieAutocompleteField } from "@/src/components/autocomplete/movie-autocomplete-field";
 import { MAX_EMOJI_LENGTH } from "@/src/utils/emoji";
 import type { QuizFormData } from "@/src/db/validation-schemas";
 
@@ -20,7 +20,7 @@ export const QuizDetailQuestion = ({
     <Typography variant="h5" gutterBottom>
       Question #{selectedQuestionIndex + 1}
     </Typography>
-    <MovieAutocompleteInput
+    <MovieAutocompleteField
       control={control}
       errors={errors}
       selectedQuestionIndex={selectedQuestionIndex}

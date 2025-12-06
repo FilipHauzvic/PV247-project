@@ -21,7 +21,7 @@ export async function getQuizWithMovies(quizId: number) {
     movies: movies.map((m) => ({
       id: m.id,
       movieName: m.movieName,
-      emojis: JSON.parse(m.emojis),
+      emojis: m.emojis,
       orderInQuiz: m.orderInQuiz,
     })),
   };
@@ -31,4 +31,4 @@ export const retrieveAllQuizzes = async () => await db.query.quizzes.findMany({
   where: eq(quizzes.deleted, false),
 });
 
-export const deleteQuiz = async (quizId: number) => await db.update(quizzes).set({deleted: true}).where(eq(quizzes.id, quizId));
+export const deleteQuiz = async (quizId: number) => await db.update(quizzes).set({ deleted: true }).where(eq(quizzes.id, quizId));

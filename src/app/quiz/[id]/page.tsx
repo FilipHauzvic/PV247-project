@@ -1,11 +1,11 @@
 'use client';
 
 import { use, useState, useEffect } from 'react';
-import '@/src/app/globals.css'
 import { useRouter } from 'next/navigation';
-import { QuizPlay } from '@/src/components/quiz/QuizPlay';
-import { QuizSummary } from '@/src/components/quiz/QuizSummary';
+import { QuizPlay } from '@/src/components/quiz/quiz-play';
+import { QuizSummary } from '@/src/components/quiz/quiz-summary';
 import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
+import MovieAutocompleteInput from '@/src/components/autocomplete/movie-autocomplete-input';
 
 export default function QuizPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
@@ -77,7 +77,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   }
 
   if (currentView === 'play') {
-    return <QuizPlay quiz={quiz} onComplete={handleQuizComplete} />;
+    return <QuizPlay quiz={quiz} onComplete={handleQuizComplete} autocompleteComponent={MovieAutocompleteInput} />;
   }
 
   return (

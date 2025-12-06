@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { QuizPageProps, QuizResult } from '@/src/types/quiz.types';
-import { QuizHeader } from './QuizHeader';
-import { EmojiDisplay } from './EmojiDisplay';
-import { GuessInput } from './GuessInput';
+import { QuizHeader } from './quiz-header';
+import { EmojiDisplay } from './emoji-display';
+import { GuessInput } from './guess-input';
 
-export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete }) => {
+export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocompleteComponent }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guess, setGuess] = useState('');
   const [results, setResults] = useState<QuizResult[]>([]);
@@ -116,6 +116,7 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete }) => {
             isDisabled={isCorrect || isProcessing}
             message={message}
             isCorrect={isCorrect}
+            autocompleteComponent={autocompleteComponent}
           />
         </div>
       </div>
