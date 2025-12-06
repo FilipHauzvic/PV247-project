@@ -49,7 +49,7 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   };
 
   const handleBackToList = () => {
-    router.push('/quiz');
+    router.push('/');
   };
 
   if (loading) {
