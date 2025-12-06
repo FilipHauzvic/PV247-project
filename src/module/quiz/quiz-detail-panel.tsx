@@ -3,9 +3,9 @@
 import { Box, Alert } from "@mui/material";
 import { Control, FieldErrors } from "react-hook-form";
 import type { QuizFormData } from "@/src/db/validation-schemas";
-import { QuizDetailHeader } from "./QuizDetailHeader";
-import { QuizDetailQuestion } from "./QuizDetailQuestion";
-import { QuizDetailFooter } from "./QuizDetailFooter";
+import { QuizDetailHeader } from "./quiz-detail-header";
+import { QuizDetailQuestion } from "./quiz-detail-question";
+import { QuizDetailFooter } from "./quiz-detail-footer";
 
 interface QuizDetailPanelProps {
   control: Control<QuizFormData>;
