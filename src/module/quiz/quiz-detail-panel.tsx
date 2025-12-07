@@ -16,6 +16,7 @@ interface QuizDetailPanelProps {
   isError: boolean;
   isSuccess: boolean;
   error: Error | null;
+  isEdit: boolean;
 }
 
 export const QuizDetailPanel = ({
@@ -27,6 +28,7 @@ export const QuizDetailPanel = ({
   isError,
   isSuccess,
   error,
+  isEdit,
 }: QuizDetailPanelProps) => {
   return (
     <Box
@@ -45,16 +47,16 @@ export const QuizDetailPanel = ({
       {/* Error/Success Messages */}
       {isError && (
         <Alert severity="error" sx={{ mb: 2 }}>
-          {error instanceof Error ? error.message : "Failed to create quiz"}
+          {error instanceof Error ? error.message : "Failed to create or update quiz"}
         </Alert>
       )}
       {isSuccess && (
         <Alert severity="success" sx={{ mb: 2 }}>
-          Quiz created successfully!
+          {isEdit ? "Quiz updated successfully!" : "Quiz created successfully!"}
         </Alert>
       )}
 
-      <QuizDetailFooter isPending={isPending} />
+      <QuizDetailFooter isPending={isPending} isEdit={isEdit} />
     </Box>
   );
 };

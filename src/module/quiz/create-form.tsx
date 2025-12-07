@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 import { Box } from "@mui/material";
 import { quizFormSchema, type QuizFormData } from "@/src/db/validation-schemas";
-import { createQuizAction } from "@/src/actions/quiz-actions";
+import { insertQuizAction } from "@/src/actions/quiz-actions";
 import { useRouter } from "next/navigation";
 const QuestionListSidebar = dynamic(
   () => import("./question-list-sidebar"),
@@ -16,7 +16,7 @@ const QuestionListSidebar = dynamic(
 import { QuizDetailPanel } from "./quiz-detail-panel";
 import dynamic from "next/dynamic";
 
-const CreateQuizForm = () => {
+const CreateQuizForm = ({ initialData }: { initialData?: (QuizFormData & { id: number }) | undefined }) => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
   const router = useRouter();
 
@@ -29,8 +29,8 @@ const CreateQuizForm = () => {
   } = useForm<QuizFormData>({
     resolver: zodResolver(quizFormSchema),
     defaultValues: {
-      quizName: "",
-      questions: [{ id: uuidv4(), movieName: "", emojis: "", orderInQuiz: 0 }],
+      quizName: initialData?.quizName ?? "",
+      questions: initialData?.questions ?? [{ id: uuidv4(), movieName: "", emojis: "", orderInQuiz: 0 }],
     },
   });
 
@@ -47,10 +47,12 @@ const CreateQuizForm = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: QuizFormData) => {
-      const result = await createQuizAction(data);
+      const result = initialData === undefined
+	    ? await insertQuizAction(data)
+		: await insertQuizAction(data, initialData.id);
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to create quiz");
+        throw new Error(result.error || "Failed to create or update quiz");
       }
 
       return result;
@@ -116,6 +118,7 @@ const CreateQuizForm = () => {
         isError={mutation.isError}
         isSuccess={mutation.isSuccess}
         error={mutation.error}
+		isEdit={initialData !== undefined}
       />
     </Box>
   );

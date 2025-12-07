@@ -7,6 +7,8 @@ import { db } from '@/src/index'
 import { quizzes, guessedMovies } from '@/src/db/schema'
 import { auth } from '../auth'
 import { headers } from 'next/headers';
+import { eq } from 'drizzle-orm'
+import { Quiz } from '../db/types'
 
 export async function searchMoviesTMDB(query: string) {
   if (!query || query.length < 2) return [];
@@ -31,7 +33,7 @@ export async function searchMoviesTMDB(query: string) {
   }));
 }
 
-export async function createQuizAction(data: QuizFormData) {
+export async function insertQuizAction(data: QuizFormData, id?: number | undefined) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) {
     return {
@@ -54,19 +56,30 @@ export async function createQuizAction(data: QuizFormData) {
       }
     }
 
-    const [quiz] = await db.insert(quizzes).values({
-      quizName: validatedData.quizName,
-      createdBy: session.user.id
-    }).returning();
+	let quiz: Quiz | undefined = undefined;
 
-    await db.insert(guessedMovies).values(
-      validatedData.questions.map((q, idx) => ({
-        movieName: q.movieName,
-        emojis: q.emojis,
-        orderInQuiz: idx,
-        quizId: quiz.id,
-      }))
-    );
+	if (id === undefined) {
+	  [quiz] = await db.insert(quizzes).values({
+		quizName: validatedData.quizName,
+		createdBy: session.user.id
+		}).returning();
+	} else {
+      [quiz] = await db.update(quizzes).set({
+        quizName: validatedData.quizName,
+        createdBy: session.user.id,
+      }).where(eq(quizzes.id, id)).returning();
+
+	  await db.delete(guessedMovies).where(eq(guessedMovies.quizId, quiz.id));
+	}
+
+	await db.insert(guessedMovies).values(
+		validatedData.questions.map((q, idx) => ({
+		  movieName: q.movieName,
+		  emojis: q.emojis,
+		  orderInQuiz: idx,
+		  quizId: quiz?.id ?? 0,
+		}))
+	);
 
     revalidatePath('/')
     revalidatePath('/create')
