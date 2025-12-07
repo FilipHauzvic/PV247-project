@@ -14,7 +14,7 @@ const Page = () => {
 	const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 	const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
 	const [sortedByMine, setSortedByMine] = useState<boolean | null>(null);
-	const [searchText, setSearchText] = useState<String | null>(null);
+	const [searchText, setSearchText] = useState<string | null>(null);
 	const [listLoading, setListLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [page, setPage] = useState(1);
@@ -61,7 +61,7 @@ const Page = () => {
           		{error}
         	</div> : listLoading ? (
 				<div className="flex justify-center mt-50">
-					<CircularProgress />
+					<CircularProgress />lement home page with link to sign in page)
 				</div>
 			) : (
 				<div className="flex justify-center">
