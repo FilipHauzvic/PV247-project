@@ -9,8 +9,12 @@ import { Box } from "@mui/material";
 import { quizFormSchema, type QuizFormData } from "@/src/db/validation-schemas";
 import { createQuizAction } from "@/src/actions/quiz-actions";
 import { useRouter } from "next/navigation";
-import { QuestionListSidebar } from "./question-list-sidebar";
+const QuestionListSidebar = dynamic(
+  () => import("./question-list-sidebar"),
+  { ssr: false }
+);
 import { QuizDetailPanel } from "./quiz-detail-panel";
+import dynamic from "next/dynamic";
 
 const CreateQuizForm = () => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
