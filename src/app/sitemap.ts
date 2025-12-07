@@ -6,13 +6,13 @@ export const sitemap = (): MetadataRoute.Sitemap => {
 	return [
 		{
 			url: baseUrl,
-			lastModified: new Date(),
+			lastModified: new Date("2025-12-07"),
 			changeFrequency: "yearly",
 			priority: 1
 		},
 		{
 			url: `${baseUrl}/login`,
-			lastModified: new Date(),
+			lastModified: new Date("2025-12-07"),
 			changeFrequency: "yearly",
 			priority: 0.7
 		},
