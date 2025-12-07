@@ -5,14 +5,14 @@ interface EmojiDisplayProps {
   emojisToShow: number;
 }
 
-export const EmojiDisplay: React.FC<EmojiDisplayProps> = ({ 
-  emojis, 
-  emojisToShow 
+export const EmojiDisplay: React.FC<EmojiDisplayProps> = ({
+  emojis,
+  emojisToShow
 }) => {
   return (
     <div className="mb-8 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6">
       <div className="flex justify-center items-center gap-4 flex-wrap">
-        {emojis.slice(0, emojisToShow).map((emoji, index) => (
+        {Array.from(emojis).slice(0, emojisToShow).map((emoji, index) => (
           <div
             key={index}
             className="text-6xl animate-bounce"

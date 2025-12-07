@@ -3,7 +3,7 @@ import type { Quiz, GuessedMovie } from '@/src/db/types';
 export interface QuizWithMovies {
   id: number;
   quizName: string;
-  createdBy: number;
+  createdBy: string;
   movies: MovieForQuiz[];
 }
 
@@ -24,6 +24,10 @@ export interface QuizResult {
 export interface QuizPageProps {
   quiz: QuizWithMovies;
   onComplete: (results: QuizResult[]) => void;
+  autocompleteComponent: React.ComponentType<{
+    value: string;
+    onChange: (value: string) => void;
+  }>;
 }
 
 export interface QuizSummaryProps {

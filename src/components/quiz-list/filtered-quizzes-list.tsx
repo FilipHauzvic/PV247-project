@@ -48,7 +48,7 @@ const QuizListItem = (props: QuizListItemProps) => {
     const session = authClient.useSession();
     const router = useRouter();
     const [deleting, setDeleting] = useState(false);
-    const [deletingError, setDeletingError] = useState<String | null>(null);
+    const [deletingError, setDeletingError] = useState<string | null>(null);
 
     return (
         <div className="flex flex-col bg-gray-200 outline-solid outline-2 rounded-2xl">
