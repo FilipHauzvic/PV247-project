@@ -60,7 +60,7 @@ const EmojiInput = ({
 		helperText={`${currentCount}/${maxEmojis} emojis`}
 		error={currentCount > maxEmojis}
 		/>
-		<EmojiPicker lazyLoadEmojis={true} width="100%" onEmojiClick={handleEmojiClick} categories={[
+		<EmojiPicker emojiVersion="13.0" lazyLoadEmojis={true} width="100%" onEmojiClick={handleEmojiClick} categories={[
 			{ category: Categories.SMILEYS_PEOPLE, name: "Smileys" },
 			{ category: Categories.ANIMALS_NATURE, name: "Animals and nature" },
 			{ category: Categories.FOOD_DRINK, name: "Food and drinks" },
