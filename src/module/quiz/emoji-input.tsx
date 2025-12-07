@@ -1,8 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { TextField, TextFieldProps } from "@mui/material";
 import { isOnlyEmojis, splitEmojiString } from "@/src/utils/emoji";
+import dynamic from "next/dynamic";
+import { Categories, EmojiClickData } from "emoji-picker-react";
+
+const EmojiPicker = dynamic(() => import("emoji-picker-react"), {
+  ssr: false,
+});
 
 type EmojiInputProps = Omit<TextFieldProps, "onChange" | "value"> & {
   value: string;
@@ -16,35 +22,55 @@ const EmojiInput = ({
   maxEmojis,
   ...props
 }: EmojiInputProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
+  const latestValueRef = useRef(value);
+  useEffect(() => {
+	latestValueRef.current = value;
+  }, [value]);
 
-    // Only allow emoji characters
-    if (!isOnlyEmojis(inputValue)) {
-      return;
-    }
+  const applyEmojiValue = (inputValue: string) => {
+    if (!isOnlyEmojis(inputValue)) return;
 
     const graphemes = splitEmojiString(inputValue);
 
-    // Enforce max emoji count
     if (graphemes.length > maxEmojis) {
-      const truncated = graphemes.slice(0, maxEmojis).join("");
-      onChange(truncated);
+      onChange(graphemes.slice(0, maxEmojis).join(""));
     } else {
       onChange(inputValue);
     }
   };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    applyEmojiValue(inputValue);
+  };
+
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+	const newValue = latestValueRef.current + emojiData.emoji;
+	applyEmojiValue(newValue);
+  }
 
   const currentCount = splitEmojiString(value).length;
 
   return (
-    <TextField
-      {...props}
-      value={value}
-      onChange={handleChange}
-      helperText={`${currentCount}/${maxEmojis} emojis`}
-      error={currentCount > maxEmojis}
-    />
+	<div className="w-full">
+		<TextField
+		{...props}
+		value={value}
+		onChange={handleChange}
+		helperText={`${currentCount}/${maxEmojis} emojis`}
+		error={currentCount > maxEmojis}
+		/>
+		<EmojiPicker lazyLoadEmojis={true} width="100%" onEmojiClick={handleEmojiClick} categories={[
+			{ category: Categories.SMILEYS_PEOPLE, name: "Smileys" },
+			{ category: Categories.ANIMALS_NATURE, name: "Animals and nature" },
+			{ category: Categories.FOOD_DRINK, name: "Food and drinks" },
+			{ category: Categories.TRAVEL_PLACES, name: "Travel" },
+			{ category: Categories.ACTIVITIES, name: "Activities" },
+			{ category: Categories.OBJECTS, name: "Objects" },
+			{ category: Categories.SYMBOLS, name: "Symbols" },
+			{ category: Categories.FLAGS, name: "Flags" },
+  		]}/>
+	</div>
   );
 };
 

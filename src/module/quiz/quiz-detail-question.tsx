@@ -26,6 +26,7 @@ export const QuizDetailQuestion = ({
       selectedQuestionIndex={selectedQuestionIndex}
     />
     <Controller
+	  key={selectedQuestionIndex}
       name={`questions.${selectedQuestionIndex}.emojis`}
       control={control}
       render={({ field }) => (

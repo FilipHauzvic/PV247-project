@@ -223,3 +223,5 @@ export const QuestionListSidebar = ({
     </Paper>
   );
 };
+
+export default QuestionListSidebar;
