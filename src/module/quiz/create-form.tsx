@@ -22,7 +22,6 @@ const CreateQuizForm = () => {
     formState: { errors },
     reset,
     watch,
-    trigger,
   } = useForm<QuizFormData>({
     resolver: zodResolver(quizFormSchema),
     defaultValues: {
@@ -52,7 +51,7 @@ const CreateQuizForm = () => {
 
       return result;
     },
-    onSuccess: (result) => {
+    onSuccess: () => {
       reset({
         quizName: "",
         questions: [

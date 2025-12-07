@@ -11,7 +11,7 @@ import { authClient } from "@/src/lib/auth-client";
 type QuizListHeaderProps = {
     sortedByMine: boolean | null;
     setSortedByMine: (currSortedByMine: boolean) => void;
-    setSearchText: (currSearchText: String) => void;
+    setSearchText: (currSearchText: string) => void;
 }
 
 const QuizListHeader = (props: QuizListHeaderProps) => {

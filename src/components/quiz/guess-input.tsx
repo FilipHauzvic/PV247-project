@@ -48,7 +48,7 @@ export const GuessInput: React.FC<GuessInputProps> = ({
           <AutocompleteComponent value={guess} onChange={onGuessChange} />
         </div>
         <button
-          onClick={onSubmit}
+          onClick={onSubmit}	
           disabled={isDisabled || !guess.trim()}
           className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-semibold py-3 rounded-lg transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
         >
