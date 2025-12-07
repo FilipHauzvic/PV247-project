@@ -12,11 +12,11 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("http://localhost:3000"),
+	metadataBase: new URL("https://pv-247-project-eight.vercel.app"),
 	title: { default: "Movie Emoji Guesser", template: "%s | Movie Emoji Guesser" },
 	description: "A simple game for guessing movies based on emojis.",
 	alternates: {
-		canonical: "http://localhost:3000",
+		canonical: "https://pv-247-project-eight.vercel.app",
 	},
 	keywords: [
 		"movie quiz",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 	openGraph: {
 		title: "Movie Emoji Guesser",
 		description: "A simple game for guessing movies based on emojis.",
-		url: "http://localhost:3000",
+		url: "https://pv-247-project-eight.vercel.app",
 		siteName: "Movie Emoji Guesser",
 	},
 };
