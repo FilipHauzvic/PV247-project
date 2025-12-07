@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { QuizPageProps, QuizResult } from '@/src/types/quiz.types';
 import { QuizHeader } from './quiz-header';
 import { EmojiDisplay } from './emoji-display';
@@ -12,6 +12,22 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
   const [message, setMessage] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const [startTime] = useState(Date.now());
+  const [totalSeconds, setTotalSeconds] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setTotalSeconds(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [startTime]);
 
   const currentMovie = quiz.movies[currentIndex];
   const maxEmojis = currentMovie.emojis.length;
@@ -49,7 +65,10 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
           setIsCorrect(false);
           setIsProcessing(false);
         } else {
-          onComplete(newResults);
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+          }
+          onComplete(newResults, totalSeconds);
         }
       }, 1500);
     } else {
@@ -78,7 +97,10 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
             setMessage('');
             setIsProcessing(false);
           } else {
-            onComplete(newResults);
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+            }
+            onComplete(newResults, totalSeconds);
           }
         }, 2500);
       }
@@ -101,6 +123,9 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
             </div>
             <div className="text-sm text-orange-600">
               Attempts: {wrongAttempts + 1} / {maxEmojis}
+            </div>
+            <div className="text-sm text-blue-600">
+              Time: {Math.floor(totalSeconds / 60)}:{(totalSeconds % 60).toString().padStart(2, '0')}
             </div>
           </div>
 

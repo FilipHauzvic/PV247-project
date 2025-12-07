@@ -38,8 +38,26 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
     fetchQuiz();
   }, [id]);
 
-  const handleQuizComplete = (results: QuizResult[]) => {
+  const handleQuizComplete = async (results: QuizResult[], totalSeconds: number) => {
     setQuizResults(results);
+
+    try {
+      const response = await fetch(`/api/quiz/${id}/results`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          results,
+          totalGuessingTimeInSeconds: totalSeconds
+        })
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to save results');
+      }
+    } catch (error) {
+      console.error('Error saving results:', error);
+    }
+
     setCurrentView('summary');
   };
 

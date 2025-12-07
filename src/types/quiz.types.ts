@@ -23,7 +23,7 @@ export interface QuizResult {
 
 export interface QuizPageProps {
   quiz: QuizWithMovies;
-  onComplete: (results: QuizResult[]) => void;
+  onComplete: (results: QuizResult[], totalSeconds: number) => void;
   autocompleteComponent: React.ComponentType<{
     value: string;
     onChange: (value: string) => void;
