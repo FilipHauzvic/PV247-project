@@ -1,4 +1,5 @@
 import './globals.css';
+import 'dotenv/config';
 import type { Metadata } from "next";
 import GuesserNavBar from "../components/shared/guesser-navbar";
 import { Providers } from "./providers";
@@ -12,11 +13,11 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://pv-247-project-eight.vercel.app"),
+	metadataBase: new URL(process.env.APP_URL ?? "https://pv-247-project-eight.vercel.app"),
 	title: { default: "Movie Emoji Guesser", template: "%s | Movie Emoji Guesser" },
 	description: "A simple game for guessing movies based on emojis.",
 	alternates: {
-		canonical: "https://pv-247-project-eight.vercel.app",
+		canonical: process.env.APP_URL ?? "https://pv-247-project-eight.vercel.app",
 	},
 	keywords: [
 		"movie quiz",
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
 	openGraph: {
 		title: "Movie Emoji Guesser",
 		description: "A simple game for guessing movies based on emojis.",
-		url: "https://pv-247-project-eight.vercel.app",
+		url: process.env.APP_URL ?? "https://pv-247-project-eight.vercel.app",
 		siteName: "Movie Emoji Guesser",
 	},
 };

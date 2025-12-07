@@ -7,6 +7,7 @@ import { authClient } from "@/src/lib/auth-client";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from "next/navigation";
 
 type FilteredQuizzesListProps = {
@@ -59,9 +60,18 @@ const QuizListItem = (props: QuizListItemProps) => {
                         <PlayCircleIcon sx={{ display: { xs: 'flex' }, fontSize: 45, color: 'black' }}/>
                     </IconButton>
                 </li>
+				{session.data !== null && session.data.user !== null && session.data.user.id === props.quiz.createdBy ? (
+                    <>
+                        <li className="ml-10 mt-3 mb-3">
+							<IconButton onClick={() => router.push(`/edit/${props.quiz.id}`)} sx={{ p: 0 }}>
+								<EditIcon sx={{ display: { xs: 'flex' }, fontSize: 45, color: 'black' }} />
+							</IconButton>
+						</li>
+                    </>
+                ) : null}
                 {session.data !== null && session.data.user !== null && session.data.user.id === props.quiz.createdBy ? (
                     <>
-                        <li className="ml-10 mt-3 mb-3 mr-3">
+                        <li className="mt-3 mb-3 mr-3">
                             {deletingError ? <div className="text-xl text-red-500 mt-2 mr-2 font-semibold"> {deletingError} </div> : (
                             <IconButton disabled={deleting} onClick={async () => {
                                 try {

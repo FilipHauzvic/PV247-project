@@ -20,5 +20,5 @@ export const auth = betterAuth({
         },
     },
     plugins: [],
-    baseURL: process.env.BETTER_AUTH_URL,
+    baseURL: process.env.APP_URL ?? "https://pv-247-project-eight.vercel.app",
 });

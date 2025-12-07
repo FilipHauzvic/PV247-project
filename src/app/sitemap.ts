@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import { MetadataRoute } from 'next';
 
 export const sitemap = (): MetadataRoute.Sitemap => {
-	const baseUrl = "https://pv-247-project-eight.vercel.app";
+	const baseUrl = process.env.APP_URL ?? "https://pv-247-project-eight.vercel.app";
 
 	return [
 		{
