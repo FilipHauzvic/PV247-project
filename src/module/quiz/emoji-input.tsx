@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { TextField, TextFieldProps } from "@mui/material";
 import { isOnlyEmojis, splitEmojiString } from "@/src/utils/emoji";
 import dynamic from "next/dynamic";
