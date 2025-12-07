@@ -30,7 +30,7 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
   }, [startTime]);
 
   const currentMovie = quiz.movies[currentIndex];
-  const maxEmojis = currentMovie.emojis.length;
+  const maxEmojis = Array.from(currentMovie.emojis).length;
   const emojisToShow = Math.min(wrongAttempts + 1, maxEmojis);
 
   const normalizeString = (str: string) => {
@@ -72,7 +72,7 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
         }
       }, 1500);
     } else {
-      if (wrongAttempts < maxEmojis - 1) {
+      if (wrongAttempts < maxEmojis) {
         setWrongAttempts(wrongAttempts + 1);
         setMessage('❌ Try again!');
         setIsProcessing(false);
@@ -122,7 +122,7 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
               Question {currentIndex + 1} of {quiz.movies.length}
             </div>
             <div className="text-sm text-orange-600">
-              Attempts: {wrongAttempts + 1} / {maxEmojis}
+              Attempts: {wrongAttempts + 1} / {maxEmojis + 1}
             </div>
             <div className="text-sm text-blue-600">
               Time: {Math.floor(totalSeconds / 60)}:{(totalSeconds % 60).toString().padStart(2, '0')}
