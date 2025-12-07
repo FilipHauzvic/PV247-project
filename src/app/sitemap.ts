@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export const sitemap = (): MetadataRoute.Sitemap => {
-	const baseUrl = "http://localhost:3000";
+	const baseUrl = "https://pv-247-project-eight.vercel.app";
 
 	return [
 		{
