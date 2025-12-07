@@ -35,6 +35,8 @@ export interface QuizSummaryProps {
   results: QuizResult[];
   onRestart: () => void;
   onBackToList: () => void;
+  totalTime?: number;
+  bestTime?: number;
 }
 
 export function convertToQuizWithMovies(

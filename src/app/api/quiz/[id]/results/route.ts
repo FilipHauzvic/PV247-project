@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { saveGameResults } from '@/src/db/queries/game';
 import { auth } from '@/src/auth';
 import { headers } from 'next/headers';
+import { db } from '@/src/index';
+import { games } from '@/src/db/schema';
+import { eq, and, min } from 'drizzle-orm';
 
 export async function POST(
   request: NextRequest,
@@ -19,6 +22,7 @@ export async function POST(
     }
 
     const session = await auth.api.getSession({ headers: await headers() });
+    
     if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -50,9 +54,22 @@ export async function POST(
       totalGuessingTimeInSeconds,
     });
 
+    const bestTimeResult = await db
+      .select({ 
+        bestTime: min(games.totalGuessingTimeInSeconds) 
+      })
+      .from(games)
+      .where(and(
+        eq(games.quizId, quizId),
+        eq(games.playerId, session.user.id)
+      ));
+
+    const bestTime = bestTimeResult[0]?.bestTime ?? undefined;
+
     return NextResponse.json({ 
       success: true,
       gameId: game.id,
+      bestTime
     });
   } catch (error) {
     console.error('Error saving quiz results:', error);

@@ -13,6 +13,8 @@ export default function QuizSummaryPage({ params }: { params: Promise<{ id: stri
 
   const [quiz, setQuiz] = useState<QuizWithMovies | null>(null);
   const [results, setResults] = useState<QuizResult[]>([]);
+  const [totalTime, setTotalTime] = useState<number | undefined>(undefined);
+  const [bestTime, setBestTime] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,11 +31,23 @@ export default function QuizSummaryPage({ params }: { params: Promise<{ id: stri
         setQuiz(quizData);
 
         const resultsParam = searchParams.get('results');
+        const timeParam = searchParams.get('time');
+        
         if (resultsParam) {
           try {
             const parsed = JSON.parse(resultsParam);
             if (Array.isArray(parsed)) {
               setResults(parsed);
+              if (timeParam) {
+                setTotalTime(parseInt(timeParam));
+              }
+              
+              const gameResponse = await fetch(`/api/quiz/${id}/latest-game`);
+              if (gameResponse.ok) {
+                const gameData = await gameResponse.json();
+                setBestTime(gameData.bestTime);
+              }
+              
               setLoading(false);
               return;
             }
@@ -46,6 +60,8 @@ export default function QuizSummaryPage({ params }: { params: Promise<{ id: stri
         if (gameResponse.ok) {
           const gameData = await gameResponse.json();
           setResults(gameData.results);
+          setTotalTime(gameData.game.totalGuessingTimeInSeconds);
+          setBestTime(gameData.bestTime);
         } else {
           setResults([]);
         }
@@ -111,6 +127,8 @@ export default function QuizSummaryPage({ params }: { params: Promise<{ id: stri
       results={results}
       onRestart={handleRestart}
       onBackToList={handleBackToList}
+      totalTime={totalTime}
+      bestTime={bestTime}
     />
   );
 }

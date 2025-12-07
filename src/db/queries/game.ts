@@ -1,7 +1,7 @@
 import { db } from '@/src/index';
 import { games, movieGuesses, guessedMovies } from '@/src/db/schema';
 import { QuizResult } from '@/src/types/quiz.types';
-import { eq, desc, and } from 'drizzle-orm';
+import { eq, desc, and, min } from 'drizzle-orm';
 
 export async function saveGameResults(data: {
   quizId: number;
@@ -43,7 +43,18 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
 
   const game = latestGame[0];
 
-  // Get all movie guesses for this game
+  const bestTimeResult = await db
+    .select({ 
+      bestTime: min(games.totalGuessingTimeInSeconds) 
+    })
+    .from(games)
+    .where(and(
+      eq(games.quizId, quizId),
+      eq(games.playerId, playerId)
+    ));
+
+  const bestTime = bestTimeResult[0]?.bestTime ?? undefined;
+
   const guesses = await db
     .select({
       id: movieGuesses.id,
@@ -55,7 +66,6 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
     .innerJoin(guessedMovies, eq(movieGuesses.guessedMovieId, guessedMovies.id))
     .where(eq(movieGuesses.gameId, game.id));
 
-  // Convert to QuizResult format
   const results = guesses.map(guess => ({
     guessedMovieId: guess.guessedMovieId,
     movieName: guess.movieName,
@@ -66,5 +76,6 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
   return {
     game,
     results,
+    bestTime,
   };
 }
