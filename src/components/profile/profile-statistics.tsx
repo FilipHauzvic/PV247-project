@@ -4,6 +4,7 @@ import { formatTime, formatTimeAvg } from "@/src/lib/format-time";
 import { getUserGameHistory } from "@/src/service/game-service";
 import { Session, User } from "better-auth";
 import { Loading } from "./loading";
+import { splitEmojiString } from "@/src/utils/emoji";
 
 type SessionAndUser = {
 	session: Session,
@@ -35,6 +36,7 @@ export const ProfileStatistics = ({ data }: { data?: HistoryGame[] | undefined})
 	const totalTime = data.reduce((sum, g) => sum + g.totalGuessingTimeInSeconds, 0);
 	const avgTimePerGame = totalGames > 0 ? totalTime / totalGames : 0;
 	const totalMovies = data.reduce((sum, g) => sum + g.movieGuesses.length, 0);
+	const totalMoviesGuessed = data.reduce((sum, g) => sum + g.movieGuesses.filter(guess => guess.falseGuessCount < splitEmojiString(guess.guessedMovie.emojis).length).length, 0);
 	const totalCorrectGuesses = data.reduce((sum, g) => sum + g.movieGuesses.filter(guess => guess.falseGuessCount === 0).length, 0);
 	const totalFullyCorrectGames = data.filter(g => g.movieGuesses.every(guess => guess.falseGuessCount === 0)).length;
 	const percentMoviesGuessed = totalMovies > 0 ? (totalCorrectGuesses / totalMovies) * 100 : 0;
@@ -48,8 +50,9 @@ export const ProfileStatistics = ({ data }: { data?: HistoryGame[] | undefined})
 			["Total games played", totalGames.toString()],
 			["Total time played", formatTime(totalTime)],
 			["Average time per game", formatTimeAvg(avgTimePerGame)],
-			["Total movies guessed", totalMovies.toString()],
-			["Total correct guesses on movies", totalCorrectGuesses.toString()],
+			["Total movies attemted", totalMovies.toString()],
+			["Total movies guessed", totalMoviesGuessed.toString()],
+			["Total movies guessed on first try", totalCorrectGuesses.toString()],
 			["Total fully correct games", totalFullyCorrectGames.toString()],
 			["Percent of movies guessed", percentMoviesGuessed.toFixed(2) + "%"],
 			["Average hints per movie", avgGuessesPerMovie.toFixed(1)],

@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import { HistoryGame } from "@/src/data/game";
 import { formatTime } from "@/src/lib/format-time";
 import { Loading } from "./loading";
+import { splitEmojiString } from "@/src/utils/emoji";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", flex: 1 },
@@ -19,7 +20,7 @@ export const ProfileDataGrid = ({ data }: { data?: HistoryGame[] | undefined}) =
 		id: game.id,
 		quizName: game.quiz.quizName,
 		date: game.date,
-		result: `${game.movieGuesses.filter(guess => guess.falseGuessCount < guess.guessedMovie.emojis.length + 1).length} / ${game.movieGuesses.length}`,
+		result: `${game.movieGuesses.filter(guess => guess.falseGuessCount <splitEmojiString(guess.guessedMovie.emojis).length).length} / ${game.movieGuesses.length}`,
 		time: formatTime(game.totalGuessingTimeInSeconds),
 	}));
 
