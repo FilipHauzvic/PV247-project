@@ -13,7 +13,7 @@ export const QuizPlay: React.FC<QuizPageProps> = ({ quiz, onComplete, autocomple
   const [isCorrect, setIsCorrect] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
   const [totalSeconds, setTotalSeconds] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { quizFormSchema, type QuizFormData } from '@/src/db/validation-schemas'
-import { validateEmojiString, MAX_EMOJI_LENGTH, splitEmojiString } from '@/src/utils/emoji'
+import { validateEmojiString, MAX_EMOJI_LENGTH } from '@/src/utils/emoji'
 import { db } from '@/src/index'
 import { quizzes, guessedMovies } from '@/src/db/schema'
 import { auth } from '../auth'
@@ -24,7 +24,7 @@ export async function searchMoviesTMDB(query: string) {
   if (!data.results) return [];
 
   // Return array of { id, title, release_date }
-  return data.results.map((movie: any) => ({
+  return data.results.map((movie: { id: number; title: string; release_date?: string }) => ({
     id: movie.id,
     title: movie.title,
     release_date: movie.release_date,
@@ -70,17 +70,17 @@ export async function createQuizAction(data: QuizFormData) {
 
     revalidatePath('/')
     revalidatePath('/create')
-    
-    return { 
-      success: true, 
+
+    return {
+      success: true,
       message: 'Quiz created successfully',
     }
   } catch (error) {
     console.error('Error creating quiz:', error)
-    
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Failed to create quiz' 
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to create quiz'
     }
   }
 }

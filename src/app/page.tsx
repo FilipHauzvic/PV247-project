@@ -52,7 +52,7 @@ const Page = () => {
 			setPage(1);
 		}, 300);
 		return () => clearTimeout(handler);
-	}, [searchText, sortedByMine]);
+	}, [searchText, sortedByMine, quizzes, session.data]);
 
 	return (
 		<div className="w-full h-full flex flex-col">
