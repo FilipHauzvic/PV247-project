@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { QuizPageProps, QuizResult } from '@/src/types/quiz.types';
+import { QuizPageProps, QuizResult } from '@/src/db/quiz.types';
 import { QuizHeader } from './quiz-header';
 import { EmojiDisplay } from './emoji-display';
 import { GuessInput } from './guess-input';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
+import { QuizWithMovies, QuizResult } from '@/src/db/quiz.types';
 
 interface QuizHeaderProps {
   quiz: QuizWithMovies;

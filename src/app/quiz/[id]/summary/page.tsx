@@ -4,7 +4,7 @@ import { use, useEffect, useState } from 'react';
 import '@/src/app/globals.css'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { QuizSummary } from '@/src/components/quiz/quiz-summary';
-import { QuizWithMovies, QuizResult } from '@/src/types/quiz.types';
+import { QuizWithMovies, QuizResult } from '@/src/db/quiz.types';
 
 export default function QuizSummaryPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();

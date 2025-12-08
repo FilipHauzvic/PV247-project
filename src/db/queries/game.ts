@@ -1,6 +1,6 @@
 import { db } from '@/src/index';
 import { games, movieGuesses, guessedMovies, quizzes } from '@/src/db/schema';
-import { QuizResult } from '@/src/types/quiz.types';
+import { QuizResult } from '@/src/db/quiz.types';
 import { eq, desc, and, min, inArray } from 'drizzle-orm';
 import { HistoryGame } from '@/src/data/game';
 

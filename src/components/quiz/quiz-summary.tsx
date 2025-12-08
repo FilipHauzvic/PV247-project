@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuizSummaryProps } from '@/src/types/quiz.types';
+import { QuizSummaryProps } from '@/src/db/quiz.types';
 import { formatTime } from '@/src/lib/format-time';
 
 const CheckCircle = ({ className }: { className?: string }) => (
