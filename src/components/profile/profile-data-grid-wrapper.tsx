@@ -1,4 +1,4 @@
-import { getUserGameHistory } from "@/src/service/game-service";
+import { getUserGameHistory } from "@/src/db/queries/game";
 import { ProfileDataGrid } from "./profile-data-grid";
 import { Session, User } from "better-auth";
 
