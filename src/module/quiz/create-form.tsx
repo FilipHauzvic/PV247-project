@@ -5,20 +5,23 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
-import { Box } from "@mui/material";
+import { Box, Fab, useMediaQuery, useTheme } from "@mui/material";
+import ListIcon from "@mui/icons-material/List";
 import { quizFormSchema, type QuizFormData } from "@/src/db/validation-schemas";
 import { createQuizAction } from "@/src/actions/quiz-actions";
 import { useRouter } from "next/navigation";
-const QuestionListSidebar = dynamic(
-  () => import("./question-list-sidebar"),
-  { ssr: false }
-);
+const QuestionListSidebar = dynamic(() => import("./question-list-sidebar"), {
+  ssr: false,
+});
 import { QuizDetailPanel } from "./quiz-detail-panel";
 import dynamic from "next/dynamic";
 
 const CreateQuizForm = () => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const {
     control,
@@ -96,16 +99,33 @@ const CreateQuizForm = () => {
     mutation.mutate(data);
   };
 
+  const handleSelectQuestion = (index: number) => {
+    setSelectedQuestionIndex(index);
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
+
   return (
-    <Box sx={{ display: "flex", height: "100%", overflow: "hidden" }}>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
       <QuestionListSidebar
         questions={questions}
         selectedQuestionIndex={selectedQuestionIndex}
-        onSelectQuestion={setSelectedQuestionIndex}
+        onSelectQuestion={handleSelectQuestion}
         onAddQuestion={handleAddQuestion}
         onDeleteQuestion={handleDeleteQuestion}
         onReorderQuestions={handleReorderQuestions}
         fieldIds={fields.map((f) => f.id)}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        isMobile={isMobile}
       />
       <QuizDetailPanel
         control={control}
@@ -117,6 +137,23 @@ const CreateQuizForm = () => {
         isSuccess={mutation.isSuccess}
         error={mutation.error}
       />
+
+      {/* Mobile FAB to open sidebar */}
+      {isMobile && (
+        <Fab
+          color="primary"
+          aria-label="open questions list"
+          onClick={() => setSidebarOpen(true)}
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            left: 16,
+            zIndex: 1000,
+          }}
+        >
+          <ListIcon />
+        </Fab>
+      )}
     </Box>
   );
 };

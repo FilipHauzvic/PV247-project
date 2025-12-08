@@ -10,10 +10,12 @@ import {
   Paper,
   Typography,
   IconButton,
+  Drawer,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   DndContext,
   closestCenter,
@@ -40,6 +42,9 @@ interface QuestionListSidebarProps {
   onDeleteQuestion: (index: number) => void;
   onReorderQuestions: (oldIndex: number, newIndex: number) => void;
   fieldIds: string[];
+  open: boolean;
+  onClose: () => void;
+  isMobile: boolean;
 }
 
 interface SortableQuestionItemProps {
@@ -135,6 +140,9 @@ export const QuestionListSidebar = ({
   onDeleteQuestion,
   onReorderQuestions,
   fieldIds,
+  open,
+  onClose,
+  isMobile,
 }: QuestionListSidebarProps) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -170,18 +178,24 @@ export const QuestionListSidebar = ({
     }
   };
 
-  return (
-    <Paper
-      elevation={3}
-      sx={{
-        width: "25%",
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: 0,
-      }}
-    >
-      <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
+  const sidebarContent = (
+    <>
+      <Box
+        sx={{
+          p: 2,
+          borderBottom: 1,
+          borderColor: "divider",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <Typography variant="h6">Questions</Typography>
+        {isMobile && (
+          <IconButton onClick={onClose} edge="end" aria-label="close sidebar">
+            <CloseIcon />
+          </IconButton>
+        )}
       </Box>
 
       <DndContext
@@ -220,6 +234,40 @@ export const QuestionListSidebar = ({
           Add New Question
         </Button>
       </Box>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={onClose}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "85%",
+            maxWidth: 360,
+            display: "flex",
+            flexDirection: "column",
+          },
+        }}
+      >
+        {sidebarContent}
+      </Drawer>
+    );
+  }
+
+  return (
+    <Paper
+      elevation={3}
+      sx={{
+        width: "25%",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 0,
+      }}
+    >
+      {sidebarContent}
     </Paper>
   );
 };
