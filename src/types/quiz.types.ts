@@ -23,7 +23,7 @@ export interface QuizResult {
 
 export interface QuizPageProps {
   quiz: QuizWithMovies;
-  onComplete: (results: QuizResult[]) => void;
+  onComplete: (results: QuizResult[], totalSeconds: number) => void;
   autocompleteComponent: React.ComponentType<{
     value: string;
     onChange: (value: string) => void;
@@ -35,6 +35,8 @@ export interface QuizSummaryProps {
   results: QuizResult[];
   onRestart: () => void;
   onBackToList: () => void;
+  totalTime?: number;
+  bestTime?: number;
 }
 
 export function convertToQuizWithMovies(

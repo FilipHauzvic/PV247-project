@@ -1,5 +1,6 @@
 import React from 'react';
 import { QuizSummaryProps } from '@/src/types/quiz.types';
+import { formatTime } from '@/src/lib/format-time';
 
 const CheckCircle = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,11 +20,13 @@ const Trophy = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const QuizSummary: React.FC<QuizSummaryProps> = ({ 
-  quiz, 
-  results, 
-  onRestart, 
-  onBackToList 
+export const QuizSummary: React.FC<QuizSummaryProps> = ({
+  quiz,
+  results,
+  onRestart,
+  onBackToList,
+  totalTime,
+  bestTime
 }) => {
   const correctCount = results.filter(r => r.correct).length;
   const totalCount = results.length;
@@ -59,6 +62,26 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
             <div className="text-xl font-semibold text-purple-600">
               {getPerformanceMessage()}
             </div>
+
+            {totalTime !== undefined && (
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div className="bg-blue-50 px-6 py-3 rounded-lg border-2 border-blue-200">
+                  <div className="text-sm text-gray-600">Time</div>
+                  <div className="text-2xl font-bold text-blue-700">
+                    {formatTime(totalTime)}
+                  </div>
+                </div>
+
+                {bestTime !== undefined && bestTime !== totalTime && (
+                  <div className="bg-green-50 px-6 py-3 rounded-lg border-2 border-green-200">
+                    <div className="text-sm text-gray-600">Your Best Time</div>
+                    <div className="text-2xl font-bold text-green-700">
+                      {formatTime(bestTime)}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex gap-4 justify-center flex-wrap">
@@ -85,11 +108,10 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
             {results.map((result, index) => (
               <div
                 key={`${result.guessedMovieId}-${index}`}
-                className={`p-4 rounded-lg border-2 ${
-                  result.correct
-                    ? 'bg-green-50 border-green-300'
-                    : 'bg-red-50 border-red-300'
-                }`}
+                className={`p-4 rounded-lg border-2 ${result.correct
+                  ? 'bg-green-50 border-green-300'
+                  : 'bg-red-50 border-red-300'
+                  }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">

@@ -15,17 +15,19 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   const [quiz, setQuiz] = useState<QuizWithMovies | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [totalTime, setTotalTime] = useState<number | undefined>(undefined);
+  const [bestTime, setBestTime] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
         setLoading(true);
         const response = await fetch(`/api/quiz/${id}`);
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch quiz');
         }
-        
+
         const data = await response.json();
         setQuiz(data);
       } catch (err) {
@@ -38,8 +40,30 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
     fetchQuiz();
   }, [id]);
 
-  const handleQuizComplete = (results: QuizResult[]) => {
+  const handleQuizComplete = async (results: QuizResult[], totalSeconds: number) => {
     setQuizResults(results);
+    setTotalTime(totalSeconds);
+
+    try {
+      const response = await fetch(`/api/quiz/${id}/results`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          results,
+          totalGuessingTimeInSeconds: totalSeconds
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setBestTime(data.bestTime);
+      } else {
+        console.error('Failed to save results');
+      }
+    } catch (error) {
+      console.error('Error saving results:', error);
+    }
+
     setCurrentView('summary');
   };
 
@@ -86,6 +110,8 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
       results={quizResults}
       onRestart={handleRestart}
       onBackToList={handleBackToList}
+      totalTime={totalTime}
+      bestTime={bestTime}
     />
   );
 }
