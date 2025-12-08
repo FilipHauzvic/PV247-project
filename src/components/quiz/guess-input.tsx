@@ -22,12 +22,6 @@ export const GuessInput: React.FC<GuessInputProps> = ({
   isCorrect,
   autocompleteComponent: AutocompleteComponent,
 }) => {
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isDisabled) {
-      onSubmit();
-    }
-  };
-
   return (
     <>
       <div className="mb-4 h-14 flex items-center justify-center">

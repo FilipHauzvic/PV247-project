@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { searchMoviesTMDB } from "@/src/actions/quiz-actions";
 
 export interface Movie {
@@ -8,11 +8,19 @@ export interface Movie {
 }
 
 export const useMovieAutocomplete = (searchValue: string) => {
-  const [suggestions, setSuggestions] = useState<Movie[]>([]);
+  const [rawSuggestions, setRawSuggestions] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [rawOpen, setRawOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const skipQueryRef = useRef(false);
+
+  const shouldShowSuggestions = searchValue.length >= 2;
+  
+  const suggestions = useMemo(() => {
+    return shouldShowSuggestions ? rawSuggestions : [];
+  }, [shouldShowSuggestions, rawSuggestions]);
+
+  const open = shouldShowSuggestions && rawOpen;
 
   useEffect(() => {
     if (skipQueryRef.current) {
@@ -20,9 +28,7 @@ export const useMovieAutocomplete = (searchValue: string) => {
       return;
     }
 
-    if (searchValue.length < 2) {
-      setSuggestions([]);
-      setOpen(false);
+    if (!shouldShowSuggestions) {
       return;
     }
 
@@ -30,31 +36,31 @@ export const useMovieAutocomplete = (searchValue: string) => {
       setLoading(true);
       try {
         const results = await searchMoviesTMDB(searchValue);
-        setSuggestions(results);
-        setOpen(true);
+        setRawSuggestions(results);
+        setRawOpen(true);
       } catch {
-        setSuggestions([]);
-        setOpen(false);
+        setRawSuggestions([]);
+        setRawOpen(false);
       }
       setLoading(false);
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [searchValue]);
+  }, [searchValue, shouldShowSuggestions]);
 
   const handleSelect = (movie: Movie, callback: (title: string) => void) => {
     skipQueryRef.current = true;
-    setSuggestions([]);
-    setOpen(false);
+    setRawSuggestions([]);
+    setRawOpen(false);
     callback(movie.title);
   };
 
   const openSuggestions = () => {
-    if (suggestions.length > 0) setOpen(true);
+    if (rawSuggestions.length > 0) setRawOpen(true);
   };
 
   const closeSuggestions = () => {
-    setTimeout(() => setOpen(false), 150);
+    setTimeout(() => setRawOpen(false), 150);
   };
 
   return {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
@@ -25,7 +25,6 @@ const CreateQuizForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm<QuizFormData>({
     resolver: zodResolver(quizFormSchema),
     defaultValues: {
@@ -39,7 +38,10 @@ const CreateQuizForm = () => {
     name: "questions",
   });
 
-  const questions = watch("questions");
+  const questions = useWatch({
+    control,
+    name: "questions",
+  });
 
   const handleReorderQuestions = (oldIndex: number, newIndex: number) => {
     move(oldIndex, newIndex);
