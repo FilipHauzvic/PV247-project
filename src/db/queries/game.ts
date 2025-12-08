@@ -1,7 +1,8 @@
 import { db } from '@/src/index';
-import { games, movieGuesses, guessedMovies } from '@/src/db/schema';
+import { games, movieGuesses, guessedMovies, quizzes } from '@/src/db/schema';
 import { QuizResult } from '@/src/types/quiz.types';
-import { eq, desc, and, min } from 'drizzle-orm';
+import { eq, desc, and, min, inArray } from 'drizzle-orm';
+import { HistoryGame } from '@/src/data/game';
 
 export async function saveGameResults(data: {
   quizId: number;
@@ -78,4 +79,39 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
     results,
     bestTime,
   };
+}
+
+export const getUserGameHistory = async (userId: string) => {
+	await new Promise(r => setTimeout(r, 2000));
+	const gameData = await db
+			.select()
+				.from(games)
+				.leftJoin(quizzes, eq(games.quizId, quizzes.id))
+				.where(eq(games.playerId, userId));
+
+	const gameIds = gameData.map(x => x.games.id);
+
+	const movieData = await db
+		.select()
+		.from(movieGuesses)
+		.leftJoin(guessedMovies, eq(movieGuesses.guessedMovieId, guessedMovies.id))
+		.where(inArray(movieGuesses.gameId, gameIds));
+
+	const gameHistory: HistoryGame[] = gameData.map(gameDataElement => ({
+		id: gameDataElement.games.id,
+		totalGuessingTimeInSeconds: gameDataElement.games.totalGuessingTimeInSeconds,
+		date: gameDataElement.games.date ?? "",
+		quiz: { quizName: gameDataElement.quizzes?.quizName ?? "Unknown Quiz" },
+		movieGuesses: movieData
+			.filter(movieDataElement => movieDataElement.movie_guesses.gameId === gameDataElement.games.id)
+			.map(movieDataElement => ({
+				falseGuessCount: movieDataElement.movie_guesses.falseGuessCount,
+				guessedMovie: {
+					movieName: movieDataElement.guessed_movies?.movieName ?? "Unknown Movie",
+					emojis: movieDataElement.guessed_movies?.emojis ?? "",
+				},
+			})),
+	}));
+
+	return gameHistory;
 }

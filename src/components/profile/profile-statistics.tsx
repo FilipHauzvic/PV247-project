@@ -1,10 +1,10 @@
 import { HistoryGame } from "@/src/data/game";
 import GuesserTable from "../shared/guesser-table";
 import { formatTime, formatTimeAvg } from "@/src/lib/format-time";
-import { getUserGameHistory } from "@/src/service/game-service";
 import { Session, User } from "better-auth";
 import { Loading } from "./loading";
 import { splitEmojiString } from "@/src/utils/emoji";
+import { getUserGameHistory } from "@/src/db/queries/game";
 
 type SessionAndUser = {
 	session: Session,
