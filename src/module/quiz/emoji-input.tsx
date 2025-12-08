@@ -24,7 +24,7 @@ const EmojiInput = ({
 }: EmojiInputProps) => {
   const latestValueRef = useRef(value);
   useEffect(() => {
-	latestValueRef.current = value;
+    latestValueRef.current = value;
   }, [value]);
 
   const applyEmojiValue = (inputValue: string) => {
@@ -45,32 +45,39 @@ const EmojiInput = ({
   };
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
-	const newValue = latestValueRef.current + emojiData.emoji;
-	applyEmojiValue(newValue);
-  }
+    const newValue = latestValueRef.current + emojiData.emoji;
+    applyEmojiValue(newValue);
+  };
 
   const currentCount = splitEmojiString(value).length;
 
   return (
-	<div className="w-full">
-		<TextField
-		{...props}
-		value={value}
-		onChange={handleChange}
-		helperText={`${currentCount}/${maxEmojis} emojis`}
-		error={currentCount > maxEmojis}
-		/>
-		<EmojiPicker emojiVersion="13.0" lazyLoadEmojis={true} width="100%" onEmojiClick={handleEmojiClick} categories={[
-			{ category: Categories.SMILEYS_PEOPLE, name: "Smileys" },
-			{ category: Categories.ANIMALS_NATURE, name: "Animals and nature" },
-			{ category: Categories.FOOD_DRINK, name: "Food and drinks" },
-			{ category: Categories.TRAVEL_PLACES, name: "Travel" },
-			{ category: Categories.ACTIVITIES, name: "Activities" },
-			{ category: Categories.OBJECTS, name: "Objects" },
-			{ category: Categories.SYMBOLS, name: "Symbols" },
-			{ category: Categories.FLAGS, name: "Flags" },
-  		]}/>
-	</div>
+    <div className="w-full">
+      <TextField
+        {...props}
+        value={value}
+        onChange={handleChange}
+        helperText={`${currentCount}/${maxEmojis} emojis`}
+        error={currentCount > maxEmojis}
+      />
+      <EmojiPicker
+        emojiVersion="13.0"
+        lazyLoadEmojis={true}
+        width="100%"
+        height="40vh"
+        onEmojiClick={handleEmojiClick}
+        categories={[
+          { category: Categories.SMILEYS_PEOPLE, name: "Smileys" },
+          { category: Categories.ANIMALS_NATURE, name: "Animals and nature" },
+          { category: Categories.FOOD_DRINK, name: "Food and drinks" },
+          { category: Categories.TRAVEL_PLACES, name: "Travel" },
+          { category: Categories.ACTIVITIES, name: "Activities" },
+          { category: Categories.OBJECTS, name: "Objects" },
+          { category: Categories.SYMBOLS, name: "Symbols" },
+          { category: Categories.FLAGS, name: "Flags" },
+        ]}
+      />
+    </div>
   );
 };
 

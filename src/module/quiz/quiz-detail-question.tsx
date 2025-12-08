@@ -16,7 +16,9 @@ export const QuizDetailQuestion = ({
   errors,
   selectedQuestionIndex,
 }: QuizDetailQuestionProps) => (
-  <Box sx={{ flexGrow: 1 }}>
+  <Box
+    sx={{ flexGrow: 1, minHeight: 0, display: "flex", flexDirection: "column" }}
+  >
     <Typography variant="h5" gutterBottom>
       Question #{selectedQuestionIndex + 1}
     </Typography>
@@ -25,25 +27,33 @@ export const QuizDetailQuestion = ({
       errors={errors}
       selectedQuestionIndex={selectedQuestionIndex}
     />
-    <Controller
-	  key={selectedQuestionIndex}
-      name={`questions.${selectedQuestionIndex}.emojis`}
-      control={control}
-      render={({ field }) => (
-        <EmojiInput
-          value={field.value}
-          onChange={field.onChange}
-          maxEmojis={MAX_EMOJI_LENGTH}
-          fullWidth
-          label="Emojis"
-          placeholder="Enter emojis representing the movie"
-          error={!!errors.questions?.[selectedQuestionIndex]?.emojis}
-          helperText={
-            errors.questions?.[selectedQuestionIndex]?.emojis?.message
-          }
-          sx={{ mb: 2 }}
-        />
-      )}
-    />
+    <Box
+      sx={{
+        flexBasis: "40%",
+        maxHeight: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Controller
+        key={selectedQuestionIndex}
+        name={`questions.${selectedQuestionIndex}.emojis`}
+        control={control}
+        render={({ field }) => (
+          <EmojiInput
+            value={field.value}
+            onChange={field.onChange}
+            maxEmojis={MAX_EMOJI_LENGTH}
+            fullWidth
+            label="Emojis"
+            placeholder="Enter emojis representing the movie"
+            error={!!errors.questions?.[selectedQuestionIndex]?.emojis}
+            helperText={
+              errors.questions?.[selectedQuestionIndex]?.emojis?.message
+            }
+          />
+        )}
+      />
+    </Box>
   </Box>
 );

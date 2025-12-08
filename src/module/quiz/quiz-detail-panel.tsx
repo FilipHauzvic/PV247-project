@@ -36,11 +36,21 @@ export const QuizDetailPanel = ({
     >
       <QuizDetailHeader control={control} errors={errors} />
 
-      <QuizDetailQuestion
-        control={control}
-        errors={errors}
-        selectedQuestionIndex={selectedQuestionIndex}
-      />
+      <Box
+        sx={{
+          flexGrow: 1,
+          minHeight: 0,
+          overflow: "auto",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <QuizDetailQuestion
+          control={control}
+          errors={errors}
+          selectedQuestionIndex={selectedQuestionIndex}
+        />
+      </Box>
 
       {/* Error/Success Messages */}
       {isError && (
