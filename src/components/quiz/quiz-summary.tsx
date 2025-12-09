@@ -1,22 +1,53 @@
-import React from 'react';
-import { QuizSummaryProps } from '@/src/db/quiz.types';
-import { formatTime } from '@/src/lib/format-time';
+import React from "react";
+import { QuizSummaryProps } from "@/src/db/quiz.types";
+import { formatTime } from "@/src/lib/format-time";
+import PrimaryButton from "../shared/primary-button";
 
 const CheckCircle = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
   </svg>
 );
 
 const XCircle = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
   </svg>
 );
 
 const Trophy = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+    />
   </svg>
 );
 
@@ -26,9 +57,9 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
   onRestart,
   onBackToList,
   totalTime,
-  bestTime
+  bestTime,
 }) => {
-  const correctCount = results.filter(r => r.correct).length;
+  const correctCount = results.filter((r) => r.correct).length;
   const totalCount = results.length;
   const percentage = Math.round((correctCount / totalCount) * 100);
 
@@ -85,18 +116,30 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
           </div>
 
           <div className="flex gap-4 justify-center flex-wrap">
-            <button
+            <PrimaryButton
               onClick={onRestart}
-              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+              variant="outlined"
+              startIcon={<span>🔄</span>}
+              sx={{
+                backgroundColor: "transparent",
+                color: "black",
+                border: "1px solid black",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.05)",
+                  border: "1px solid black",
+                },
+              }}
+              className="px-6"
             >
-              🔄 Try Again
-            </button>
-            <button
+              Try Again
+            </PrimaryButton>
+            <PrimaryButton
               onClick={onBackToList}
-              className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+              startIcon={<span>📋</span>}
+              className="px-6"
             >
-              📋 Back to Quizzes
-            </button>
+              Back to Quizzes
+            </PrimaryButton>
           </div>
         </div>
 
@@ -108,10 +151,11 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
             {results.map((result, index) => (
               <div
                 key={`${result.guessedMovieId}-${index}`}
-                className={`p-4 rounded-lg border-2 ${result.correct
-                  ? 'bg-green-50 border-green-300'
-                  : 'bg-red-50 border-red-300'
-                  }`}
+                className={`p-4 rounded-lg border-2 ${
+                  result.correct
+                    ? "bg-green-50 border-green-300"
+                    : "bg-red-50 border-red-300"
+                }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -130,7 +174,7 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
                     </div>
                   </div>
                   <div className="text-sm text-gray-600">
-                    {result.attempts} attempt{result.attempts !== 1 ? 's' : ''}
+                    {result.attempts} attempt{result.attempts !== 1 ? "s" : ""}
                   </div>
                 </div>
               </div>
