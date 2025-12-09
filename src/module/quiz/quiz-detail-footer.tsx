@@ -1,4 +1,5 @@
-import { Box, Button } from "@mui/material";
+import PrimaryButton from "@/src/components/shared/primary-button";
+import { Box } from "@mui/material";
 
 interface QuizDetailFooterProps {
   isPending: boolean;
@@ -6,8 +7,8 @@ interface QuizDetailFooterProps {
 
 export const QuizDetailFooter = ({ isPending }: QuizDetailFooterProps) => (
   <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-    <Button variant="contained" size="large" type="submit" disabled={isPending}>
+    <PrimaryButton size="large" type="submit" disabled={isPending}>
       {isPending ? "Creating..." : "Create Quiz"}
-    </Button>
+    </PrimaryButton>
   </Box>
 );

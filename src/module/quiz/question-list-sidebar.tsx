@@ -33,6 +33,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { Question } from "@/src/db/validation-schemas";
+import PrimaryButton from "@/src/components/shared/primary-button";
 
 interface QuestionListSidebarProps {
   questions: Question[];
@@ -225,14 +226,20 @@ export const QuestionListSidebar = ({
       </DndContext>
 
       <Box sx={{ p: 2, borderTop: 1, borderColor: "divider" }}>
-        <Button
+        <PrimaryButton
           fullWidth
           variant="outlined"
           startIcon={<AddIcon />}
           onClick={onAddQuestion}
+          sx={{
+            backgroundColor: "transparent",
+            color: "black",
+            border: "1px solid rgba(0, 0, 0, 0.23)",
+            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
+          }}
         >
           Add New Question
-        </Button>
+        </PrimaryButton>
       </Box>
     </>
   );

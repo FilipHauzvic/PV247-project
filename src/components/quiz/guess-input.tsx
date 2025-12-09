@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import PrimaryButton from "../shared/primary-button";
 
 interface GuessInputProps {
   guess: string;
@@ -26,9 +27,13 @@ export const GuessInput: React.FC<GuessInputProps> = ({
     <>
       <div className="mb-4 h-14 flex items-center justify-center">
         {message && (
-          <div className={`w-full p-4 rounded-lg text-center font-semibold ${
-            isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-          }`}>
+          <div
+            className={`w-full p-4 rounded-lg text-center font-semibold ${
+              isCorrect
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
             {message}
           </div>
         )}
@@ -41,13 +46,13 @@ export const GuessInput: React.FC<GuessInputProps> = ({
           </label>
           <AutocompleteComponent value={guess} onChange={onGuessChange} />
         </div>
-        <button
-          onClick={onSubmit}	
+        <PrimaryButton
+          onClick={onSubmit}
           disabled={isDisabled || !guess.trim()}
-          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-semibold py-3 rounded-lg transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+          fullWidth
         >
           Submit Guess
-        </button>
+        </PrimaryButton>
       </div>
     </>
   );
