@@ -71,7 +71,11 @@ export function useQuizQuestion({
     if (!guess.trim() || quizState.type !== 'idle') return;
 
     const isCorrect = normalizeString(guess) === normalizeString(correctAnswer);
-    isCorrect ? handleCorrectGuess() : handleIncorrectGuess();
+    if (isCorrect) {
+      handleCorrectGuess();
+    } else {
+      handleIncorrectGuess();
+    }
   };
 
   return {
