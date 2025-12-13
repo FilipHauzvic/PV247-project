@@ -3,20 +3,15 @@
 import { use, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuizPlay } from '@/src/components/quiz/quiz-play';
-import { QuizSummary } from '@/src/components/quiz/quiz-summary';
 import { QuizWithMovies, QuizResult } from '@/src/db/quiz.types';
 import MovieAutocompleteInput from '@/src/components/autocomplete/movie-autocomplete-input';
 
 export default function QuizPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = use(params);
-  const [currentView, setCurrentView] = useState<'play' | 'summary'>('play');
-  const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
   const [quiz, setQuiz] = useState<QuizWithMovies | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [totalTime, setTotalTime] = useState<number | undefined>(undefined);
-  const [bestTime, setBestTime] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -41,9 +36,6 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
   }, [id]);
 
   const handleQuizComplete = async (results: QuizResult[], totalSeconds: number) => {
-    setQuizResults(results);
-    setTotalTime(totalSeconds);
-
     try {
       const response = await fetch(`/api/quiz/${id}/results`, {
         method: 'POST',
@@ -54,22 +46,14 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
         })
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setBestTime(data.bestTime);
-      } else {
+      if (!response.ok) {
         console.error('Failed to save results');
       }
     } catch (error) {
       console.error('Error saving results:', error);
     }
 
-    setCurrentView('summary');
-  };
-
-  const handleRestart = () => {
-    setQuizResults([]);
-    setCurrentView('play');
+    router.push(`/quiz/${id}/summary`);
   };
 
   const handleBackToList = () => {
@@ -100,18 +84,11 @@ export default function QuizPage({ params }: { params: Promise<{ id: string }> }
     );
   }
 
-  if (currentView === 'play') {
-    return <QuizPlay quiz={quiz} onComplete={handleQuizComplete} autocompleteComponent={MovieAutocompleteInput} />;
-  }
-
   return (
-    <QuizSummary
-      quiz={quiz}
-      results={quizResults}
-      onRestart={handleRestart}
-      onBackToList={handleBackToList}
-      totalTime={totalTime}
-      bestTime={bestTime}
+    <QuizPlay 
+      quiz={quiz} 
+      onComplete={handleQuizComplete} 
+      autocompleteComponent={MovieAutocompleteInput} 
     />
   );
 }
