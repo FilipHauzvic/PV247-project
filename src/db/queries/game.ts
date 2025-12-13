@@ -45,8 +45,8 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
   const game = latestGame[0];
 
   const bestTimeResult = await db
-    .select({ 
-      bestTime: min(games.totalGuessingTimeInSeconds) 
+    .select({
+      bestTime: min(games.totalGuessingTimeInSeconds)
     })
     .from(games)
     .where(and(
@@ -62,17 +62,23 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
       falseGuessCount: movieGuesses.falseGuessCount,
       guessedMovieId: movieGuesses.guessedMovieId,
       movieName: guessedMovies.movieName,
+      emojis: guessedMovies.emojis,
     })
     .from(movieGuesses)
     .innerJoin(guessedMovies, eq(movieGuesses.guessedMovieId, guessedMovies.id))
     .where(eq(movieGuesses.gameId, game.id));
 
-  const results = guesses.map(guess => ({
-    guessedMovieId: guess.guessedMovieId,
-    movieName: guess.movieName,
-    correct: guess.falseGuessCount === 0,
-    attempts: guess.falseGuessCount + 1,
-  }));
+  const results = guesses.map(guess => {
+    let maxAttempts = 0;
+    maxAttempts = Array.from(guess.emojis).length;
+
+    return {
+      guessedMovieId: guess.guessedMovieId,
+      movieName: guess.movieName,
+      correct: guess.falseGuessCount < maxAttempts,
+      attempts: guess.falseGuessCount + 1,
+    };
+  });
 
   return {
     game,
@@ -82,36 +88,36 @@ export async function getLatestGameForQuiz(quizId: number, playerId: string) {
 }
 
 export const getUserGameHistory = async (userId: string) => {
-	await new Promise(r => setTimeout(r, 2000));
-	const gameData = await db
-			.select()
-				.from(games)
-				.leftJoin(quizzes, eq(games.quizId, quizzes.id))
-				.where(eq(games.playerId, userId));
+  await new Promise(r => setTimeout(r, 2000));
+  const gameData = await db
+    .select()
+    .from(games)
+    .leftJoin(quizzes, eq(games.quizId, quizzes.id))
+    .where(eq(games.playerId, userId));
 
-	const gameIds = gameData.map(x => x.games.id);
+  const gameIds = gameData.map(x => x.games.id);
 
-	const movieData = await db
-		.select()
-		.from(movieGuesses)
-		.leftJoin(guessedMovies, eq(movieGuesses.guessedMovieId, guessedMovies.id))
-		.where(inArray(movieGuesses.gameId, gameIds));
+  const movieData = await db
+    .select()
+    .from(movieGuesses)
+    .leftJoin(guessedMovies, eq(movieGuesses.guessedMovieId, guessedMovies.id))
+    .where(inArray(movieGuesses.gameId, gameIds));
 
-	const gameHistory: HistoryGame[] = gameData.map(gameDataElement => ({
-		id: gameDataElement.games.id,
-		totalGuessingTimeInSeconds: gameDataElement.games.totalGuessingTimeInSeconds,
-		date: gameDataElement.games.date ?? "",
-		quiz: { quizName: gameDataElement.quizzes?.quizName ?? "Unknown Quiz" },
-		movieGuesses: movieData
-			.filter(movieDataElement => movieDataElement.movie_guesses.gameId === gameDataElement.games.id)
-			.map(movieDataElement => ({
-				falseGuessCount: movieDataElement.movie_guesses.falseGuessCount,
-				guessedMovie: {
-					movieName: movieDataElement.guessed_movies?.movieName ?? "Unknown Movie",
-					emojis: movieDataElement.guessed_movies?.emojis ?? "",
-				},
-			})),
-	}));
+  const gameHistory: HistoryGame[] = gameData.map(gameDataElement => ({
+    id: gameDataElement.games.id,
+    totalGuessingTimeInSeconds: gameDataElement.games.totalGuessingTimeInSeconds,
+    date: gameDataElement.games.date ?? "",
+    quiz: { quizName: gameDataElement.quizzes?.quizName ?? "Unknown Quiz" },
+    movieGuesses: movieData
+      .filter(movieDataElement => movieDataElement.movie_guesses.gameId === gameDataElement.games.id)
+      .map(movieDataElement => ({
+        falseGuessCount: movieDataElement.movie_guesses.falseGuessCount,
+        guessedMovie: {
+          movieName: movieDataElement.guessed_movies?.movieName ?? "Unknown Movie",
+          emojis: movieDataElement.guessed_movies?.emojis ?? "",
+        },
+      })),
+  }));
 
-	return gameHistory;
+  return gameHistory;
 }

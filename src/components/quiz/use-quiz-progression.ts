@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { QuizResult, QuizWithMovies } from '@/src/db/quiz.types';
 
 interface UseQuizProgressionProps {
@@ -9,13 +9,13 @@ interface UseQuizProgressionProps {
 export function useQuizProgression({ quiz, onComplete }: UseQuizProgressionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState<QuizResult[]>([]);
-  const startTimeRef = useRef(Date.now());
+  const [startTime] = useState(() => Date.now());
 
   const currentMovie = quiz.movies[currentIndex];
   const isLastQuestion = currentIndex === quiz.movies.length - 1;
 
   const getElapsedSeconds = () => 
-    Math.floor((Date.now() - startTimeRef.current) / 1000);
+    Math.floor((Date.now() - startTime) / 1000);
 
   const moveToNextQuestion = () => {
     if (!isLastQuestion) {
@@ -66,6 +66,6 @@ export function useQuizProgression({ quiz, onComplete }: UseQuizProgressionProps
     isLastQuestion,
     handleCorrectAnswer,
     handleIncorrectAnswer,
-    startTime: startTimeRef.current,
+    startTime,
   };
 }

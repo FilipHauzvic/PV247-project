@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useQuizTimer = () => {
-  const startTimeRef = useRef(Date.now());
+  const [startTime, setStartTime] = useState(() => Date.now());
   
-  const getElapsedSeconds = () => Math.floor((Date.now() - startTimeRef.current) / 1000);
+  const getElapsedSeconds = () => Math.floor((Date.now() - startTime) / 1000);
   
   const reset = () => {
-    startTimeRef.current = Date.now();
+    setStartTime(Date.now());
   };
   
   return { getElapsedSeconds, reset };
